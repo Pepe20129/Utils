@@ -1,0 +1,1715 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Utils</name>
+    </assembly>
+    <members>
+        <member name="T:Utils.expression.Expression">
+            <summary>
+            A <see cref="T:Utils.expression.Expression"/> that can be executed with <see cref="M:Utils.expression.Expression.Execute"/>
+            </summary>
+        </member>
+        <member name="M:Utils.expression.Expression.#ctor(System.String)">
+            <summary>
+            Makes a new <see cref="T:Utils.expression.Expression"/>
+            </summary>
+            <param name="raw">The string representation of the <see cref="T:Utils.expression.Expression"/></param>
+        </member>
+        <member name="M:Utils.expression.Expression.Execute">
+            <summary>
+            Executes the <see cref="T:Utils.expression.Expression"/>
+            </summary>
+            <returns>The result of the <see cref="T:Utils.expression.Expression"/></returns>
+        </member>
+        <member name="T:Utils.expression.Expression.OperatorException">
+            <summary>
+            An <see cref="T:System.Exception"/> that is thrown when an operator can't opearte the values it's been given
+            </summary>
+        </member>
+        <member name="M:Utils.expression.Expression.OperatorException.#ctor(System.String)">
+            <summary>
+            Creates a new instance of <see cref="T:Utils.expression.Expression.OperatorException"/> with a specified message
+            </summary>
+            <param name="message">The message of this <see cref="T:Utils.expression.Expression.OperatorException"/></param>
+        </member>
+        <member name="F:Utils.expression.Expression.regexStrings">
+            <summary>
+            A <see cref="T:System.Collections.Generic.Dictionary`2"/> that relates the <see cref="T:System.Type"/> of a <see cref="T:Utils.expression.Expression.Segment"/> with a regex string that matches them<br/>
+            The regex strings can have the "cancel" capture group, which if matched, the whole regex match will not match
+            </summary>
+        </member>
+        <member name="F:Utils.expression.Expression.operatorPrecedences">
+            <summary>
+            A <see cref="T:System.Collections.Generic.Dictionary`2"/> that relates an <see cref="T:System.Int32"/> with a <see cref="T:System.Collections.Generic.List`1"/> of <see cref="T:System.Type"/>s of <see cref="T:Utils.expression.Operator"/>s<br/>
+            Operators associated with a lower number will be evaluated first
+            </summary>
+        </member>
+        <member name="M:Utils.expression.Expression.ToString">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="T:Utils.expression.Expression.Segment">
+            <summary>
+            A segment within an <see cref="T:Utils.expression.Expression"/>, it can be a <see cref="T:Utils.expression.Value"/> or an <see cref="T:Utils.expression.Operator"/>
+            </summary>
+        </member>
+        <member name="M:Utils.expression.Expression.Segment.#ctor(System.String,Utils.expression.Expression)">
+            <summary>
+            Creates a new <see cref="T:Utils.expression.Expression.Segment"/> based on <paramref name="raw"/>
+            </summary>
+            <param name="raw">The string representation of this <see cref="T:Utils.expression.Expression.Segment"/></param>
+            <param name="expression">The <see cref="T:Utils.expression.Expression"/> of which this <see cref="T:Utils.expression.Expression.Segment"/> is a part of</param>
+        </member>
+        <member name="T:Utils.expression.Operator">
+            <summary>
+            A <see cref="T:Utils.expression.Expression.Segment"/> that operates on <see cref="T:Utils.expression.Value"/>s
+            </summary>
+        </member>
+        <member name="M:Utils.expression.Operator.#ctor(System.String,Utils.expression.Expression)">
+            <summary>
+            Creates a new <see cref="T:Utils.expression.Operator"/> based on <paramref name="raw"/>
+            </summary>
+            <param name="raw">The string representation of this <see cref="T:Utils.expression.Operator"/></param>
+            <param name="expression">The <see cref="T:Utils.expression.Expression"/> of which this <see cref="T:Utils.expression.Expression.Segment"/> is a part of</param>
+        </member>
+        <member name="T:Utils.expression.UnaryOperator">
+            <summary>
+            An <see cref="T:Utils.expression.Operator"/> that precedes a value and modifies it
+            </summary>
+        </member>
+        <member name="M:Utils.expression.UnaryOperator.#ctor(System.String,Utils.expression.Expression)">
+            <summary>
+            Creates a new <see cref="T:Utils.expression.UnaryOperator"/> based on <paramref name="raw"/>
+            </summary>
+            <param name="raw">The string representation of this <see cref="T:Utils.expression.UnaryOperator"/></param>
+            <param name="expression">The <see cref="T:Utils.expression.Expression"/> of which this <see cref="T:Utils.expression.Expression.Segment"/> is a part of</param>
+        </member>
+        <member name="M:Utils.expression.UnaryOperator.CanOperate(Utils.expression.Value)">
+            <summary>
+            Whether or not this <see cref="T:Utils.expression.UnaryOperator"/> can operate on <paramref name="value"/>
+            </summary>
+            <param name="value">The value to check operatibility for</param>
+            <returns>Whether or not this <see cref="T:Utils.expression.UnaryOperator"/> can operate on <paramref name="value"/></returns>
+        </member>
+        <member name="M:Utils.expression.UnaryOperator.Operate(Utils.expression.Value)">
+            <summary>
+            Operates this <see cref="T:Utils.expression.UnaryOperator"/> on <paramref name="value"/>
+            </summary>
+            <param name="value">The <see cref="T:Utils.expression.UnaryOperator"/>'s argument</param>
+            <returns>The result of operating this <see cref="T:Utils.expression.UnaryOperator"/> on <paramref name="value"/></returns>
+        </member>
+        <member name="T:Utils.expression.NegationOperator">
+            <summary>
+            Inverts a <see cref="T:Utils.expression.BooleanValue"/>
+            </summary>
+        </member>
+        <member name="M:Utils.expression.NegationOperator.#ctor(System.String,Utils.expression.Expression)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="raw"><inheritdoc/></param>
+            <param name="expression"><inheritdoc/></param>
+        </member>
+        <member name="M:Utils.expression.NegationOperator.CanOperate(Utils.expression.Value)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="value"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.expression.NegationOperator.Operate(Utils.expression.Value)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="value"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.expression.NegationOperator.ToString">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="T:Utils.expression.BitwiseComplementOperator">
+            <summary>
+            Inverts every bit of a <see cref="T:Utils.expression.Value"/>
+            </summary>
+        </member>
+        <member name="M:Utils.expression.BitwiseComplementOperator.#ctor(System.String,Utils.expression.Expression)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="raw"><inheritdoc/></param>
+            <param name="expression"><inheritdoc/></param>
+        </member>
+        <member name="M:Utils.expression.BitwiseComplementOperator.CanOperate(Utils.expression.Value)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="value"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.expression.BitwiseComplementOperator.Operate(Utils.expression.Value)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="value"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.expression.BitwiseComplementOperator.ToString">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="T:Utils.expression.DualOperator">
+            <summary>
+            An <see cref="T:Utils.expression.Operator"/> that takes the preceding and the succeding <see cref="T:Utils.expression.Value"/> and returns a <see cref="T:Utils.expression.Value"/>
+            </summary>
+        </member>
+        <member name="M:Utils.expression.DualOperator.#ctor(System.String,Utils.expression.Expression)">
+            <summary>
+            Creates a new <see cref="T:Utils.expression.DualOperator"/> based on <paramref name="raw"/>
+            </summary>
+            <param name="raw">The string representation of this <see cref="T:Utils.expression.DualOperator"/></param>
+            <param name="expression"><inheritdoc/></param>
+        </member>
+        <member name="M:Utils.expression.DualOperator.CanOperate(Utils.expression.Value,Utils.expression.Value)">
+            <summary>
+            Whether or not this <see cref="T:Utils.expression.DualOperator"/> can operate on <paramref name="left"/> &amp; <paramref name="right"/>
+            </summary>
+            <param name="left">The first value to check operatibility for</param>
+            <param name="right">The second value to check operatibility for</param>
+            <returns>Whether or not this <see cref="T:Utils.expression.DualOperator"/> can operate on <paramref name="left"/> &amp; <paramref name="right"/></returns>
+        </member>
+        <member name="M:Utils.expression.DualOperator.Operate(Utils.expression.Value,Utils.expression.Value)">
+            <summary>
+            Operates this <see cref="T:Utils.expression.DualOperator"/> on <paramref name="left"/> &amp; <paramref name="right"/>
+            </summary>
+            <param name="left">The <see cref="T:Utils.expression.DualOperator"/>'s first argument</param>
+            <param name="right">The <see cref="T:Utils.expression.DualOperator"/>'s second argument</param>
+            <returns>The result of operating this <see cref="T:Utils.expression.DualOperator"/> on <paramref name="left"/> &amp; <paramref name="right"/></returns>
+        </member>
+        <member name="T:Utils.expression.BooleanOperator">
+            <summary>
+            A <see cref="T:Utils.expression.DualOperator"/> that operates on <see cref="T:Utils.expression.BooleanValue"/>s
+            </summary>
+        </member>
+        <member name="M:Utils.expression.BooleanOperator.#ctor(System.String,Utils.expression.Expression)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="raw"><inheritdoc/></param>
+            <param name="expression"><inheritdoc/></param>
+        </member>
+        <member name="M:Utils.expression.BooleanOperator.CanOperate(Utils.expression.Value,Utils.expression.Value)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="left"><inheritdoc/></param>
+            <param name="right"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="T:Utils.expression.AndOperator">
+            <summary>
+            Conditional ANDs two <see cref="T:Utils.expression.BooleanValue"/>s
+            </summary>
+        </member>
+        <member name="M:Utils.expression.AndOperator.#ctor(System.String,Utils.expression.Expression)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="raw"><inheritdoc/></param>
+            <param name="expression"><inheritdoc/></param>
+        </member>
+        <member name="M:Utils.expression.AndOperator.Operate(Utils.expression.Value,Utils.expression.Value)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="left"><inheritdoc/></param>
+            <param name="right"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.expression.AndOperator.ToString">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="T:Utils.expression.LogicalAndOperator">
+            <summary>
+            Logical ANDs two <see cref="T:Utils.expression.BooleanValue"/>s
+            </summary>
+        </member>
+        <member name="M:Utils.expression.LogicalAndOperator.#ctor(System.String,Utils.expression.Expression)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="raw"><inheritdoc/></param>
+            <param name="expression"><inheritdoc/></param>
+        </member>
+        <member name="M:Utils.expression.LogicalAndOperator.Operate(Utils.expression.Value,Utils.expression.Value)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="left"><inheritdoc/></param>
+            <param name="right"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.expression.LogicalAndOperator.ToString">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="T:Utils.expression.OrOperator">
+            <summary>
+            Conditional ORs two <see cref="T:Utils.expression.BooleanValue"/>s
+            </summary>
+        </member>
+        <member name="M:Utils.expression.OrOperator.#ctor(System.String,Utils.expression.Expression)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="raw"><inheritdoc/></param>
+            <param name="expression"><inheritdoc/></param>
+        </member>
+        <member name="M:Utils.expression.OrOperator.Operate(Utils.expression.Value,Utils.expression.Value)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="left"><inheritdoc/></param>
+            <param name="right"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.expression.OrOperator.ToString">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="T:Utils.expression.LogicalOrOperator">
+            <summary>
+            Logical ORs two <see cref="T:Utils.expression.BooleanValue"/>s
+            </summary>
+        </member>
+        <member name="M:Utils.expression.LogicalOrOperator.#ctor(System.String,Utils.expression.Expression)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="raw"><inheritdoc/></param>
+            <param name="expression"><inheritdoc/></param>
+        </member>
+        <member name="M:Utils.expression.LogicalOrOperator.Operate(Utils.expression.Value,Utils.expression.Value)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="left"><inheritdoc/></param>
+            <param name="right"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.expression.LogicalOrOperator.ToString">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="T:Utils.expression.LogicalXOrOperator">
+            <summary>
+            Logical XORs two <see cref="T:Utils.expression.BooleanValue"/>s
+            </summary>
+        </member>
+        <member name="M:Utils.expression.LogicalXOrOperator.#ctor(System.String,Utils.expression.Expression)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="raw"><inheritdoc/></param>
+            <param name="expression"><inheritdoc/></param>
+        </member>
+        <member name="M:Utils.expression.LogicalXOrOperator.Operate(Utils.expression.Value,Utils.expression.Value)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="left"><inheritdoc/></param>
+            <param name="right"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.expression.LogicalXOrOperator.ToString">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="T:Utils.expression.NumberOperator">
+            <summary>
+            A <see cref="T:Utils.expression.DualOperator"/> that operates on <see cref="T:Utils.expression.IntegerValue"/>s, <see cref="T:Utils.expression.LongValue"/>s &amp; <see cref="T:Utils.expression.FloatValue"/>s
+            </summary>
+        </member>
+        <member name="M:Utils.expression.NumberOperator.#ctor(System.String,Utils.expression.Expression)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="raw"><inheritdoc/></param>
+            <param name="expression"><inheritdoc/></param>
+        </member>
+        <member name="M:Utils.expression.NumberOperator.CanOperate(Utils.expression.Value,Utils.expression.Value)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="left"><inheritdoc/></param>
+            <param name="right"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="T:Utils.expression.AdditionOperator">
+            <summary>
+            Adds two <see cref="T:Utils.expression.IntegerValue"/>s, <see cref="T:Utils.expression.LongValue"/>s or <see cref="T:Utils.expression.FloatValue"/>s
+            </summary>
+        </member>
+        <member name="M:Utils.expression.AdditionOperator.#ctor(System.String,Utils.expression.Expression)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="raw"><inheritdoc/></param>
+            <param name="expression"><inheritdoc/></param>
+        </member>
+        <member name="M:Utils.expression.AdditionOperator.Operate(Utils.expression.Value,Utils.expression.Value)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="left"><inheritdoc/></param>
+            <param name="right"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.expression.AdditionOperator.ToString">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="T:Utils.expression.SubstractionOperator">
+            <summary>
+            Substracts two <see cref="T:Utils.expression.IntegerValue"/>s, <see cref="T:Utils.expression.LongValue"/>s or <see cref="T:Utils.expression.FloatValue"/>s
+            </summary>
+        </member>
+        <member name="M:Utils.expression.SubstractionOperator.#ctor(System.String,Utils.expression.Expression)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="raw"><inheritdoc/></param>
+            <param name="expression"><inheritdoc/></param>
+        </member>
+        <member name="M:Utils.expression.SubstractionOperator.Operate(Utils.expression.Value,Utils.expression.Value)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="left"><inheritdoc/></param>
+            <param name="right"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.expression.SubstractionOperator.ToString">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="T:Utils.expression.MultiplicationOperator">
+            <summary>
+            Multiplies two <see cref="T:Utils.expression.IntegerValue"/>s, <see cref="T:Utils.expression.LongValue"/>s or <see cref="T:Utils.expression.FloatValue"/>s
+            </summary>
+        </member>
+        <member name="M:Utils.expression.MultiplicationOperator.#ctor(System.String,Utils.expression.Expression)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="raw"><inheritdoc/></param>
+            <param name="expression"><inheritdoc/></param>
+        </member>
+        <member name="M:Utils.expression.MultiplicationOperator.Operate(Utils.expression.Value,Utils.expression.Value)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="left"><inheritdoc/></param>
+            <param name="right"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.expression.MultiplicationOperator.ToString">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="T:Utils.expression.DivisionOperator">
+            <summary>
+            Divides two <see cref="T:Utils.expression.IntegerValue"/>s, <see cref="T:Utils.expression.LongValue"/>s or <see cref="T:Utils.expression.FloatValue"/>s
+            </summary>
+        </member>
+        <member name="M:Utils.expression.DivisionOperator.#ctor(System.String,Utils.expression.Expression)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="raw"><inheritdoc/></param>
+            <param name="expression"><inheritdoc/></param>
+        </member>
+        <member name="M:Utils.expression.DivisionOperator.Operate(Utils.expression.Value,Utils.expression.Value)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="left"><inheritdoc/></param>
+            <param name="right"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.expression.DivisionOperator.ToString">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="T:Utils.expression.RemainderOperator">
+            <summary>
+            Divides two <see cref="T:Utils.expression.IntegerValue"/>s, <see cref="T:Utils.expression.LongValue"/>s or <see cref="T:Utils.expression.FloatValue"/>s and takes the remainder
+            </summary>
+        </member>
+        <member name="M:Utils.expression.RemainderOperator.#ctor(System.String,Utils.expression.Expression)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="raw"><inheritdoc/></param>
+            <param name="expression"><inheritdoc/></param>
+        </member>
+        <member name="M:Utils.expression.RemainderOperator.Operate(Utils.expression.Value,Utils.expression.Value)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="left"><inheritdoc/></param>
+            <param name="right"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.expression.RemainderOperator.CanOperate(Utils.expression.Value,Utils.expression.Value)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="left"><inheritdoc/></param>
+            <param name="right"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.expression.RemainderOperator.ToString">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="T:Utils.expression.EqualityOperator">
+            <summary>
+            Checks if two <see cref="T:Utils.expression.Value"/>s are equal
+            </summary>
+        </member>
+        <member name="M:Utils.expression.EqualityOperator.#ctor(System.String,Utils.expression.Expression)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="raw"><inheritdoc/></param>
+            <param name="expression"><inheritdoc/></param>
+        </member>
+        <member name="M:Utils.expression.EqualityOperator.CanOperate(Utils.expression.Value,Utils.expression.Value)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="left"><inheritdoc/></param>
+            <param name="right"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.expression.EqualityOperator.Operate(Utils.expression.Value,Utils.expression.Value)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="left"><inheritdoc/></param>
+            <param name="right"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.expression.EqualityOperator.ToString">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="T:Utils.expression.InequalityOperator">
+            <summary>
+            Checks if two <see cref="T:Utils.expression.Value"/>s are not equal
+            </summary>
+        </member>
+        <member name="M:Utils.expression.InequalityOperator.#ctor(System.String,Utils.expression.Expression)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="raw"><inheritdoc/></param>
+            <param name="expression"><inheritdoc/></param>
+        </member>
+        <member name="M:Utils.expression.InequalityOperator.CanOperate(Utils.expression.Value,Utils.expression.Value)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="left"><inheritdoc/></param>
+            <param name="right"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.expression.InequalityOperator.Operate(Utils.expression.Value,Utils.expression.Value)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="left"><inheritdoc/></param>
+            <param name="right"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.expression.InequalityOperator.ToString">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="T:Utils.expression.GreaterThanOrEqualToOperator">
+            <summary>
+            Checks if a <see cref="T:Utils.expression.Value"/> is greater than or equal to another <see cref="T:Utils.expression.Value"/>
+            </summary>
+        </member>
+        <member name="M:Utils.expression.GreaterThanOrEqualToOperator.#ctor(System.String,Utils.expression.Expression)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="raw"><inheritdoc/></param>
+            <param name="expression"><inheritdoc/></param>
+        </member>
+        <member name="M:Utils.expression.GreaterThanOrEqualToOperator.Operate(Utils.expression.Value,Utils.expression.Value)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="left"><inheritdoc/></param>
+            <param name="right"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.expression.GreaterThanOrEqualToOperator.ToString">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="T:Utils.expression.LesserThanOrEqualToOperator">
+            <summary>
+            Checks if a <see cref="T:Utils.expression.Value"/> is lesser than or equal to another <see cref="T:Utils.expression.Value"/>
+            </summary>
+        </member>
+        <member name="M:Utils.expression.LesserThanOrEqualToOperator.#ctor(System.String,Utils.expression.Expression)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="raw"><inheritdoc/></param>
+            <param name="expression"><inheritdoc/></param>
+        </member>
+        <member name="M:Utils.expression.LesserThanOrEqualToOperator.Operate(Utils.expression.Value,Utils.expression.Value)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="left"><inheritdoc/></param>
+            <param name="right"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.expression.LesserThanOrEqualToOperator.ToString">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="T:Utils.expression.GreaterThanOperator">
+            <summary>
+            Checks if a <see cref="T:Utils.expression.Value"/> is greater than another <see cref="T:Utils.expression.Value"/>
+            </summary>
+        </member>
+        <member name="M:Utils.expression.GreaterThanOperator.#ctor(System.String,Utils.expression.Expression)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="raw"><inheritdoc/></param>
+            <param name="expression"><inheritdoc/></param>
+        </member>
+        <member name="M:Utils.expression.GreaterThanOperator.Operate(Utils.expression.Value,Utils.expression.Value)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="left"><inheritdoc/></param>
+            <param name="right"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.expression.GreaterThanOperator.ToString">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="T:Utils.expression.LesserThanOperator">
+            <summary>
+            Checks if a <see cref="T:Utils.expression.Value"/> is lesser than another <see cref="T:Utils.expression.Value"/>
+            </summary>
+        </member>
+        <member name="M:Utils.expression.LesserThanOperator.#ctor(System.String,Utils.expression.Expression)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="raw"><inheritdoc/></param>
+            <param name="expression"><inheritdoc/></param>
+        </member>
+        <member name="M:Utils.expression.LesserThanOperator.Operate(Utils.expression.Value,Utils.expression.Value)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="left"><inheritdoc/></param>
+            <param name="right"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.expression.LesserThanOperator.ToString">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="T:Utils.expression.LeftShiftOperator">
+            <summary>
+            Bitwise shifts the first <see cref="T:Utils.expression.Value"/> to the left the amount of times dictated by the second <see cref="T:Utils.expression.Value"/>
+            </summary>
+        </member>
+        <member name="M:Utils.expression.LeftShiftOperator.#ctor(System.String,Utils.expression.Expression)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="raw"><inheritdoc/></param>
+            <param name="expression"><inheritdoc/></param>
+        </member>
+        <member name="M:Utils.expression.LeftShiftOperator.Operate(Utils.expression.Value,Utils.expression.Value)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="left"><inheritdoc/></param>
+            <param name="right"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.expression.LeftShiftOperator.CanOperate(Utils.expression.Value,Utils.expression.Value)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="left"><inheritdoc/></param>
+            <param name="right"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.expression.LeftShiftOperator.ToString">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="T:Utils.expression.RightShiftOperator">
+            <summary>
+            Bitwise shifts the first <see cref="T:Utils.expression.Value"/> to the right the amount of times dictated by the second <see cref="T:Utils.expression.Value"/>
+            </summary>
+        </member>
+        <member name="M:Utils.expression.RightShiftOperator.#ctor(System.String,Utils.expression.Expression)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="raw"><inheritdoc/></param>
+            <param name="expression"><inheritdoc/></param>
+        </member>
+        <member name="M:Utils.expression.RightShiftOperator.Operate(Utils.expression.Value,Utils.expression.Value)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="left"><inheritdoc/></param>
+            <param name="right"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.expression.RightShiftOperator.CanOperate(Utils.expression.Value,Utils.expression.Value)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="left"><inheritdoc/></param>
+            <param name="right"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.expression.RightShiftOperator.ToString">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="T:Utils.expression.NullCoalescingOperator">
+            <summary>
+            Returns the first <see cref="T:Utils.expression.Value"/>, unless it is <code>null</code>, when it returns the second <see cref="T:Utils.expression.Value"/>
+            </summary>
+        </member>
+        <member name="M:Utils.expression.NullCoalescingOperator.#ctor(System.String,Utils.expression.Expression)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="raw"><inheritdoc/></param>
+            <param name="expression"><inheritdoc/></param>
+        </member>
+        <member name="M:Utils.expression.NullCoalescingOperator.CanOperate(Utils.expression.Value,Utils.expression.Value)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="left"><inheritdoc/></param>
+            <param name="right"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.expression.NullCoalescingOperator.Operate(Utils.expression.Value,Utils.expression.Value)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="left"><inheritdoc/></param>
+            <param name="right"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.expression.NullCoalescingOperator.ToString">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="T:Utils.expression.Value">
+            <summary>
+            A wrapper around a value in an <see cref="T:Utils.expression.Expression"/>
+            </summary>
+        </member>
+        <member name="M:Utils.expression.Value.#ctor(System.String,Utils.expression.Expression)">
+            <summary>
+            Creates a new <see cref="T:Utils.expression.Value"/> based on <paramref name="raw"/>
+            </summary>
+            <param name="raw">The string representation of this <see cref="T:Utils.expression.Value"/></param>
+            <param name="expression">The <see cref="T:Utils.expression.Expression"/> of which this <see cref="T:Utils.expression.Expression.Segment"/> is a part of</param>
+        </member>
+        <member name="P:Utils.expression.Value.value">
+            <summary>
+            The value of this <see cref="T:Utils.expression.Value"/>
+            </summary>
+        </member>
+        <member name="M:Utils.expression.Value.ToString">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="T:Utils.expression.SubExpression">
+            <summary>
+            A <see cref="T:Utils.expression.Value"/> wrapper around a <see cref="T:Utils.expression.Expression"/>
+            </summary>
+        </member>
+        <member name="M:Utils.expression.SubExpression.#ctor(System.String,Utils.expression.Expression)">
+            <summary>
+            Creates a new <see cref="T:Utils.expression.SubExpression"/> based on <paramref name="raw"/>
+            </summary>
+            <param name="raw">The string representation of this <see cref="T:Utils.expression.SubExpression"/></param>
+            <param name="expression">The <see cref="T:Utils.expression.Expression"/> of which this <see cref="T:Utils.expression.Expression.Segment"/> is a part of</param>
+        </member>
+        <member name="M:Utils.expression.SubExpression.ToString">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="T:Utils.expression.NullValue">
+            <summary>
+            A <see cref="T:Utils.expression.Value"/> wrapper around a <c>null</c>
+            </summary>
+        </member>
+        <member name="M:Utils.expression.NullValue.#ctor(System.String,Utils.expression.Expression)">
+            <summary>
+            Creates a new <see cref="T:Utils.expression.NullValue"/>
+            </summary>
+            <param name="raw">Ignored</param>
+            <param name="expression">The <see cref="T:Utils.expression.Expression"/> of which this <see cref="T:Utils.expression.Expression.Segment"/> is a part of</param>
+        </member>
+        <member name="M:Utils.expression.NullValue.#ctor">
+            <summary>
+            Creates a new <see cref="T:Utils.expression.NullValue"/>
+            </summary>
+        </member>
+        <member name="M:Utils.expression.NullValue.ToString">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="T:Utils.expression.BooleanValue">
+            <summary>
+            A <see cref="T:Utils.expression.Value"/> wrapper around a <see cref="T:System.Boolean"/>
+            </summary>
+        </member>
+        <member name="M:Utils.expression.BooleanValue.#ctor(System.String,Utils.expression.Expression)">
+            <summary>
+            Creates a new <see cref="T:Utils.expression.BooleanValue"/> based on the value of <paramref name="raw"/>
+            </summary>
+            <param name="raw">The string repersentation of the <see cref="T:System.Boolean"/> value of this</param>
+            <param name="expression">The <see cref="T:Utils.expression.Expression"/> of which this <see cref="T:Utils.expression.Expression.Segment"/> is a part of</param>
+        </member>
+        <member name="M:Utils.expression.BooleanValue.#ctor(System.Boolean)">
+            <summary>
+            Creates a new <see cref="T:Utils.expression.BooleanValue"/> with a specific value
+            </summary>
+            <param name="value">The <see cref="T:System.Boolean"/> value</param>
+        </member>
+        <member name="T:Utils.expression.IntegerValue">
+            <summary>
+            A <see cref="T:Utils.expression.Value"/> wrapper around a <see cref="T:System.Int32"/>
+            </summary>
+        </member>
+        <member name="M:Utils.expression.IntegerValue.#ctor(System.String,Utils.expression.Expression)">
+            <summary>
+            Creates a new <see cref="T:Utils.expression.IntegerValue"/> based on the value of <paramref name="raw"/>
+            </summary>
+            <param name="raw">The string repersentation of the <see cref="T:System.Int32"/> value of this</param>
+            <param name="expression">The <see cref="T:Utils.expression.Expression"/> of which this <see cref="T:Utils.expression.Expression.Segment"/> is a part of</param>
+        </member>
+        <member name="M:Utils.expression.IntegerValue.#ctor(System.Int32)">
+            <summary>
+            Creates a new <see cref="T:Utils.expression.IntegerValue"/> with a specific value
+            </summary>
+            <param name="value">The <see cref="T:System.Int32"/> value</param>
+        </member>
+        <member name="T:Utils.expression.LongValue">
+            <summary>
+            A <see cref="T:Utils.expression.Value"/> wrapper around a <see cref="T:System.Int64"/>
+            </summary>
+        </member>
+        <member name="M:Utils.expression.LongValue.#ctor(System.String,Utils.expression.Expression)">
+            <summary>
+            Creates a new <see cref="T:Utils.expression.IntegerValue"/> based on the value of <paramref name="raw"/>
+            </summary>
+            <param name="raw">The string repersentation of the <see cref="T:System.Int64"/> value of this</param>
+            <param name="expression">The <see cref="T:Utils.expression.Expression"/> of which this <see cref="T:Utils.expression.Expression.Segment"/> is a part of</param>
+        </member>
+        <member name="M:Utils.expression.LongValue.#ctor(System.Int64)">
+            <summary>
+            Creates a new <see cref="T:Utils.expression.IntegerValue"/> with a specific value
+            </summary>
+            <param name="value">The <see cref="T:System.Int64"/> value</param>
+        </member>
+        <member name="M:Utils.expression.LongValue.ToString">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="T:Utils.expression.FloatValue">
+            <summary>
+            A <see cref="T:Utils.expression.Value"/> wrapper around a <see cref="T:System.Single"/>
+            </summary>
+        </member>
+        <member name="M:Utils.expression.FloatValue.#ctor(System.String,Utils.expression.Expression)">
+            <summary>
+            Creates a new <see cref="T:Utils.expression.FloatValue"/> based on the value of <paramref name="raw"/>
+            </summary>
+            <param name="raw">The string repersentation of the <see cref="T:System.Single"/> value of this</param>
+            <param name="expression">The <see cref="T:Utils.expression.Expression"/> of which this <see cref="T:Utils.expression.Expression.Segment"/> is a part of</param>
+        </member>
+        <member name="M:Utils.expression.FloatValue.#ctor(System.Single)">
+            <summary>
+            Creates a new <see cref="T:Utils.expression.FloatValue"/> with a specific value
+            </summary>
+            <param name="value">The <see cref="T:System.Single"/> value</param>
+        </member>
+        <member name="M:Utils.expression.FloatValue.ToString">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="T:Utils.Logger">
+            <summary>
+            A simple logging class
+            </summary>
+        </member>
+        <member name="P:Utils.Logger.logToFile">
+            <summary>
+            Whether or not to log to a file
+            </summary>
+        </member>
+        <member name="P:Utils.Logger.visibilityLevel">
+            <summary>
+            Only print to the console messages with a level with a lower or equal value than this (lower => more severe)
+            </summary>
+        </member>
+        <member name="P:Utils.Logger.logDirectory">
+            <summary>
+            The directory to output the log files to if <see cref="P:Utils.Logger.logToFile"/> is enabled
+            </summary>
+        </member>
+        <member name="M:Utils.Logger.Debug(System.Object)">
+            <summary>
+            Logs a message in the debug level<br/>
+            Used for very specific debug messages
+            </summary>
+            <param name="message">The message to log</param>
+        </member>
+        <member name="M:Utils.Logger.Info(System.Object)">
+            <summary>
+            Logs a message in the info level<br/>
+            Used for informational messages
+            </summary>
+            <param name="message">The message to log</param>
+        </member>
+        <member name="M:Utils.Logger.Warn(System.Object)">
+            <summary>
+            Logs a message in the warn level<br/>
+            Used for problems that will lead to broken stuff, but most of the application will remain operational<br/>
+            or when undesired behaviour from the user is recieved
+            </summary>
+            <param name="message">The message to log</param>
+        </member>
+        <member name="M:Utils.Logger.Error(System.Object)">
+            <summary>
+            Logs a message in the error level<br/>
+            Used for problems that will lead to a lot of broken stuff, but some of the application will remain operational
+            </summary>
+            <param name="message">The message to log</param>
+        </member>
+        <member name="M:Utils.Logger.Fatal(System.Object)">
+            <summary>
+            Logs a message in the fatal level<br/>
+            Used for application-breaking problems
+            </summary>
+            <param name="message">The message to log</param>
+        </member>
+        <member name="M:Utils.Logger.TranslatableLog(System.Int32,System.String,System.Object)">
+            <summary>
+            Logs a message at the specified level but with a custom translatable prefix
+            </summary>
+            <param name="level">The level of the <paramref name="message"/></param>
+            <param name="prefixKey">The translation key of the custom prefix for this <paramref name="message"/></param>
+            <param name="message">The message to log</param>
+        </member>
+        <member name="M:Utils.Logger.Log(System.Int32,System.String,System.Object)">
+            <summary>
+            Logs a message at the specified level but with a custom prefix
+            </summary>
+            <param name="level">The level of the <paramref name="message"/></param>
+            <param name="prefix">The custom prefix for this <paramref name="message"/></param>
+            <param name="message">The message to log</param>
+        </member>
+        <member name="M:Utils.Logger.SaveLog">
+            <summary>
+            Saves all the logged messages to a file and clears them
+            </summary>
+        </member>
+        <member name="T:Utils.ReadOnlySemanticVersion">
+            <summary>
+            A readonly version of <see cref="T:Utils.SemanticVersion"/>
+            </summary>
+        </member>
+        <member name="M:Utils.ReadOnlySemanticVersion.#ctor(System.Numerics.BigInteger,System.Numerics.BigInteger,System.Numerics.BigInteger,System.String,System.String)">
+            <summary>
+            <inheritdoc cref="M:Utils.SemanticVersion.#ctor(System.Numerics.BigInteger,System.Numerics.BigInteger,System.Numerics.BigInteger,System.String,System.String)"/>
+            </summary>
+            <param name="major">The major version</param>
+            <param name="minor">The minor version</param>
+            <param name="patch">The patch version</param>
+            <param name="preRelease">The pre-release</param>
+            <param name="buildMetadata">The build metadata</param>
+        </member>
+        <member name="M:Utils.ReadOnlySemanticVersion.#ctor(System.String)">
+            <summary>
+            <inheritdoc cref="M:Utils.SemanticVersion.#ctor(System.String)"/>
+            </summary>
+            <param name="raw"><inheritdoc cref="M:Utils.SemanticVersion.#ctor(System.String)"/></param>
+        </member>
+        <member name="P:Utils.ReadOnlySemanticVersion.major">
+            <summary>
+            <inheritdoc cref="P:Utils.SemanticVersion.major"/>
+            </summary>
+        </member>
+        <member name="P:Utils.ReadOnlySemanticVersion.minor">
+            <summary>
+            <inheritdoc cref="P:Utils.SemanticVersion.minor"/>
+            </summary>
+        </member>
+        <member name="P:Utils.ReadOnlySemanticVersion.patch">
+            <summary>
+            <inheritdoc cref="P:Utils.SemanticVersion.patch"/>
+            </summary>
+        </member>
+        <member name="P:Utils.ReadOnlySemanticVersion.preRelease">
+            <summary>
+            <inheritdoc cref="P:Utils.SemanticVersion.preRelease"/>
+            </summary>
+        </member>
+        <member name="P:Utils.ReadOnlySemanticVersion.buildMetadata">
+            <summary>
+            <inheritdoc cref="P:Utils.SemanticVersion.buildMetadata"/>
+            </summary>
+        </member>
+        <member name="T:Utils.SemanticVersion">
+            <summary>
+            A class that represents a <a href="https://semver.org">semantic version</a>
+            </summary>
+        </member>
+        <member name="M:Utils.SemanticVersion.#ctor(System.Numerics.BigInteger,System.Numerics.BigInteger,System.Numerics.BigInteger,System.String,System.String)">
+            <summary>
+            Creates a new <see cref="T:Utils.SemanticVersion"/> with the specified values for it's properties
+            </summary>
+            <param name="major">The major version</param>
+            <param name="minor">The minor version</param>
+            <param name="patch">The patch version</param>
+            <param name="preRelease">The pre-release</param>
+            <param name="buildMetadata">The build metadata</param>
+        </member>
+        <member name="M:Utils.SemanticVersion.#ctor(System.String)">
+            <summary>
+            Parses the <see cref="T:System.String"/> provided in a <see cref="T:Utils.SemanticVersion"/>
+            </summary>
+            <param name="raw">The <see cref="T:System.String"/> to parse into a <see cref="T:Utils.SemanticVersion"/></param>
+        </member>
+        <member name="T:Utils.SemanticVersion.InvalidSemanticVersionException">
+            <summary>
+            An <see cref="T:System.Exception"/> that is thrown when an invalid <see cref="T:Utils.SemanticVersion"/> is initiaized
+            </summary>
+        </member>
+        <member name="P:Utils.SemanticVersion.major">
+            <summary>
+            The major version
+            </summary>
+        </member>
+        <member name="P:Utils.SemanticVersion.minor">
+            <summary>
+            The minor version
+            </summary>
+        </member>
+        <member name="P:Utils.SemanticVersion.patch">
+            <summary>
+            The patch version
+            </summary>
+        </member>
+        <member name="P:Utils.SemanticVersion.preRelease">
+            <summary>
+            The pre-release
+            </summary>
+        </member>
+        <member name="P:Utils.SemanticVersion.buildMetadata">
+            <summary>
+            The build metadata
+            </summary>
+        </member>
+        <member name="M:Utils.SemanticVersion.ToReadOnly">
+            <summary>
+            Creates an instance of <see cref="T:Utils.ReadOnlySemanticVersion"/> with the data of this instance and returns it
+            </summary>
+            <returns>A new <see cref="T:Utils.ReadOnlySemanticVersion"/> that has the same data as this instance</returns>
+        </member>
+        <member name="M:Utils.SemanticVersion.Clone">
+            <summary>
+            Creates a deep copy of this <see cref="T:Utils.SemanticVersion"/>
+            </summary>
+            <returns>A deep copy of this <see cref="T:Utils.SemanticVersion"/></returns>
+        </member>
+        <member name="M:Utils.SemanticVersion.Equals(Utils.SemanticVersion)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="other"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.SemanticVersion.Equals(System.Object)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="obj"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.SemanticVersion.GetHashCode">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.SemanticVersion.ToString">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.SemanticVersion.CompareTo(Utils.SemanticVersion)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="other"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.SemanticVersion.Next">
+            <summary>
+            Gets the <see cref="T:Utils.SemanticVersion"/> immediatly following this one
+            </summary>
+            <returns>The <see cref="T:Utils.SemanticVersion"/> immediatly following this one</returns>
+        </member>
+        <member name="M:Utils.SemanticVersion.op_Implicit(Utils.SemanticVersion)~System.String">
+            <summary>
+            Implicitly casts the <see cref="T:Utils.SemanticVersion"/> into a <see cref="T:System.String"/>
+            </summary>
+            <param name="semanticVersion">The <see cref="T:Utils.SemanticVersion"/> to cast</param>
+        </member>
+        <member name="M:Utils.SemanticVersion.op_Equality(Utils.SemanticVersion,Utils.SemanticVersion)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="left"><inheritdoc/></param>
+            <param name="right"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.SemanticVersion.op_Inequality(Utils.SemanticVersion,Utils.SemanticVersion)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="left"><inheritdoc/></param>
+            <param name="right"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.SemanticVersion.op_LessThan(Utils.SemanticVersion,Utils.SemanticVersion)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="left"><inheritdoc/></param>
+            <param name="right"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.SemanticVersion.op_GreaterThan(Utils.SemanticVersion,Utils.SemanticVersion)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="left"><inheritdoc/></param>
+            <param name="right"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.SemanticVersion.op_LessThanOrEqual(Utils.SemanticVersion,Utils.SemanticVersion)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="left"><inheritdoc/></param>
+            <param name="right"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.SemanticVersion.op_GreaterThanOrEqual(Utils.SemanticVersion,Utils.SemanticVersion)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="left"><inheritdoc/></param>
+            <param name="right"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="T:Utils.SemanticVersionRange">
+            <summary>
+            A class that represents an <a href="https://github.com/npm/node-semver/blob/main/README.md#ranges">npm range of semantic versions</a>, (not a set of ranges)<br/>
+            If there's differing behaviour between this implementation and the spec, it is a bug, please report it
+            </summary>
+        </member>
+        <member name="M:Utils.SemanticVersionRange.#ctor(Utils.SemanticVersion,System.Boolean,Utils.SemanticVersion,System.Boolean,System.Boolean)">
+            <summary>
+            Creates a new <see cref="T:Utils.SemanticVersionRange"/> with the specified values for it's properties
+            </summary>
+            <param name="min"><inheritdoc cref="P:Utils.SemanticVersionRange.min"/></param>
+            <param name="minActive"><inheritdoc cref="P:Utils.SemanticVersionRange.minActive"/></param>
+            <param name="max"><inheritdoc cref="P:Utils.SemanticVersionRange.max"/></param>
+            <param name="maxActive"><inheritdoc cref="P:Utils.SemanticVersionRange.maxActive"/></param>
+            <param name="includePrereleases"><inheritdoc cref="P:Utils.SemanticVersionRange.includePrereleases"/></param>
+        </member>
+        <member name="M:Utils.SemanticVersionRange.#ctor(System.String)">
+            <summary>
+            Parses the <see cref="T:System.String"/> provided into a <see cref="T:Utils.SemanticVersionRange"/>
+            </summary>
+            <param name="raw">The <see cref="T:System.String"/> to parse into a <see cref="T:Utils.SemanticVersionRange"/></param>
+        </member>
+        <member name="M:Utils.SemanticVersionRange.#ctor(System.String,System.Boolean)">
+            <summary>
+            Parses the <see cref="T:System.String"/> provided into a <see cref="T:Utils.SemanticVersionRange"/>
+            </summary>
+            <param name="raw">The <see cref="T:System.String"/> to parse into a <see cref="T:Utils.SemanticVersionRange"/></param>
+            <param name="includePrereleases"><inheritdoc cref="P:Utils.SemanticVersionRange.includePrereleases"/></param>
+        </member>
+        <member name="T:Utils.SemanticVersionRange.InvalidSemanticVersionRangeException">
+            <summary>
+            An <see cref="T:System.Exception"/> that is thrown when an invalid <see cref="T:Utils.SemanticVersionRange"/> is initialized
+            </summary>
+        </member>
+        <member name="M:Utils.SemanticVersionRange.Includes(Utils.SemanticVersion)">
+            <summary>
+            Checks if a <see cref="T:Utils.SemanticVersion"/> is included in this <see cref="T:Utils.SemanticVersionRange"/>
+            </summary>
+            <param name="semanticVersion">The <see cref="T:Utils.SemanticVersion"/> to check</param>
+            <returns>Whether or not <paramref name="semanticVersion"/> is included in this <see cref="T:Utils.SemanticVersionRange"/></returns>
+        </member>
+        <member name="M:Utils.SemanticVersionRange.Equals(System.Object)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="obj"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.SemanticVersionRange.Equals(Utils.SemanticVersionRange)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="other"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.SemanticVersionRange.GetHashCode">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.SemanticVersionRange.ToString">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.SemanticVersionRange.Clone">
+            <summary>
+            Creates a deep copy of the object
+            </summary>
+            <returns>A deep copy of the object</returns>
+        </member>
+        <member name="P:Utils.SemanticVersionRange.min">
+            <summary>
+            The minimum (inclusive) version that a <see cref="T:Utils.SemanticVersion"/> must be to be included in this <see cref="T:Utils.SemanticVersionRange"/>
+            </summary>
+        </member>
+        <member name="P:Utils.SemanticVersionRange.minActive">
+            <summary>
+            Whether <see cref="P:Utils.SemanticVersionRange.min"/> is active or not
+            </summary>
+        </member>
+        <member name="P:Utils.SemanticVersionRange.max">
+            <summary>
+            The maximum (exclusive) version that a <see cref="T:Utils.SemanticVersion"/> must be to be included in this <see cref="T:Utils.SemanticVersionRange"/>
+            </summary>
+        </member>
+        <member name="P:Utils.SemanticVersionRange.maxActive">
+            <summary>
+            Whether <see cref="P:Utils.SemanticVersionRange.max"/> is active or not
+            </summary>
+        </member>
+        <member name="P:Utils.SemanticVersionRange.includePrereleases">
+            <summary>
+            Whether pre-releases of a different [major, minor, patch] tuple should be included in the range or not (not yet completly implemented)
+            </summary>
+        </member>
+        <member name="M:Utils.SemanticVersionRange.op_Equality(Utils.SemanticVersionRange,Utils.SemanticVersionRange)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="left"><inheritdoc/></param>
+            <param name="right"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.SemanticVersionRange.op_Inequality(Utils.SemanticVersionRange,Utils.SemanticVersionRange)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="left"><inheritdoc/></param>
+            <param name="right"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="T:Utils.SemanticVersionRangeSet">
+            <summary>
+            A set of <see cref="T:Utils.SemanticVersionRange"/>s
+            </summary>
+        </member>
+        <member name="M:Utils.SemanticVersionRangeSet.#ctor(System.String)">
+            <summary>
+            Parses the <see cref="T:System.String"/> provided into a <see cref="T:Utils.SemanticVersionRangeSet"/>
+            </summary>
+            <param name="raw">The <see cref="T:System.String"/> to parse into a <see cref="T:Utils.SemanticVersionRangeSet"/></param>
+        </member>
+        <member name="M:Utils.SemanticVersionRangeSet.#ctor(System.Collections.Generic.IEnumerable{Utils.SemanticVersionRange})">
+            <summary>
+            Parses the <see cref="T:System.Collections.Generic.IEnumerable`1"/> provided into a <see cref="T:Utils.SemanticVersionRangeSet"/>
+            </summary>
+            <param name="semanticVersionRanges">The <see cref="T:System.Collections.Generic.IEnumerable`1"/> to parse into a <see cref="T:Utils.SemanticVersionRangeSet"/></param>
+        </member>
+        <member name="M:Utils.SemanticVersionRangeSet.ToString">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <returns>
+            <inheritdoc/>
+            </returns>
+        </member>
+        <member name="M:Utils.SemanticVersionRangeSet.GetHashCode">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <returns>
+            <inheritdoc/>
+            </returns>
+        </member>
+        <member name="M:Utils.SemanticVersionRangeSet.Includes(Utils.SemanticVersion)">
+            <summary>
+            Checks if a <see cref="T:Utils.SemanticVersion"/> is included in this <see cref="T:Utils.SemanticVersionRangeSet"/>
+            </summary>
+            <param name="semanticVersion">The <see cref="T:Utils.SemanticVersion"/> to check</param>
+            <returns>Whether or not <paramref name="semanticVersion"/> is included in this <see cref="T:Utils.SemanticVersionRangeSet"/></returns>
+        </member>
+        <member name="M:Utils.SemanticVersionRangeSet.Equals(Utils.SemanticVersionRangeSet)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="other"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.SemanticVersionRangeSet.Equals(System.Object)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="obj"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.SemanticVersionRangeSet.op_Equality(Utils.SemanticVersionRangeSet,Utils.SemanticVersionRangeSet)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="left"><inheritdoc/></param>
+            <param name="right"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.SemanticVersionRangeSet.op_Inequality(Utils.SemanticVersionRangeSet,Utils.SemanticVersionRangeSet)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="left"><inheritdoc/></param>
+            <param name="right"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="T:Utils.StringConstructorJsonCoverterFactory">
+            <summary>
+            Supports converting any type with a string constructor by using a factory pattern
+            </summary>
+        </member>
+        <member name="M:Utils.StringConstructorJsonCoverterFactory.CanConvert(System.Type)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="typeToConvert"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.StringConstructorJsonCoverterFactory.CreateConverter(System.Type,System.Text.Json.JsonSerializerOptions)">
+            <summary>
+            Creates a <see cref="T:Utils.StringConstructorJsonCoverter`1"/> for the specified type
+            </summary>
+            <param name="typeToConvert"><inheritdoc/></param>
+            <param name="options"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="T:Utils.StringConstructorJsonCoverter`1">
+            <summary>
+            A <see cref="T:System.Text.Json.Serialization.JsonConverter"/> that coverts <see cref="T:System.Object"/>s that have a constructor that takes only a string
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Utils.StringConstructorJsonCoverter`1.CanConvert(System.Type)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="typeToConvert"><inheritdoc/></param>
+            <returns>
+            <inheritdoc/>
+            </returns>
+        </member>
+        <member name="M:Utils.StringConstructorJsonCoverter`1.Read(System.Text.Json.Utf8JsonReader@,System.Type,System.Text.Json.JsonSerializerOptions)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="reader"><inheritdoc/></param>
+            <param name="typeToConvert"><inheritdoc/></param>
+            <param name="options"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.StringConstructorJsonCoverter`1.ReadAsPropertyName(System.Text.Json.Utf8JsonReader@,System.Type,System.Text.Json.JsonSerializerOptions)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="reader"><inheritdoc/></param>
+            <param name="typeToConvert"><inheritdoc/></param>
+            <param name="options"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.StringConstructorJsonCoverter`1.Write(System.Text.Json.Utf8JsonWriter,`0,System.Text.Json.JsonSerializerOptions)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="writer"><inheritdoc/></param>
+            <param name="value"><inheritdoc/></param>
+            <param name="options"><inheritdoc/></param>
+        </member>
+        <member name="M:Utils.StringConstructorJsonCoverter`1.WriteAsPropertyName(System.Text.Json.Utf8JsonWriter,`0,System.Text.Json.JsonSerializerOptions)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="writer"><inheritdoc/></param>
+            <param name="value"><inheritdoc/></param>
+            <param name="options"><inheritdoc/></param>
+        </member>
+        <member name="T:Utils.TranslatableText">
+            <summary>
+            A class that takes a key and returns a string based on the static data
+            </summary>
+        </member>
+        <member name="M:Utils.TranslatableText.#ctor(System.String,System.Object[])">
+            <summary>
+            Creates a new <see cref="T:Utils.TranslatableText"/> based on a translation key
+            </summary>
+            <param name="key">The translation key</param>
+            <param name="args">The args that'll be passed into string.Format()</param>
+        </member>
+        <member name="M:Utils.TranslatableText.#ctor(System.String,System.Reflection.Assembly,System.Object[])">
+            <summary>
+            Creates a new <see cref="T:Utils.TranslatableText"/> based on a translation key
+            </summary>
+            <param name="key">The translation key</param>
+            <param name="assembly">The <see cref="T:System.Reflection.Assembly"/> to proxy</param>
+            <param name="args">The args that'll be passed into string.Format()</param>
+        </member>
+        <member name="T:Utils.TranslatableText.TranslatableKeyNotFoundException">
+            <summary>
+            An <see cref="T:System.Exception"/> that is thrown when a <see cref="T:Utils.TranslatableText"/> is initialized with a non-existent key and the <see cref="P:Utils.TranslatableText.TranslatableTextSettings.error"/> option is set to <c>true</c>
+            </summary>
+        </member>
+        <member name="T:Utils.TranslatableText.TranslatableTextSettings">
+            <summary>
+            The setting used for <see cref="T:Utils.TranslatableText"/> in an <see cref="T:System.Reflection.Assembly"/>
+            </summary>
+        </member>
+        <member name="P:Utils.TranslatableText.TranslatableTextSettings.data">
+            <summary>
+            The data used for obtaining the value of the keys
+            </summary>
+        </member>
+        <member name="P:Utils.TranslatableText.TranslatableTextSettings.error">
+            <summary>
+            Whether or not to error when not finding a key in the data
+            </summary>
+        </member>
+        <member name="P:Utils.TranslatableText.TranslatableTextSettings.random">
+            <summary>
+            The instance of <see cref="T:System.Random"/> used for getting a value within arrays
+            </summary>
+        </member>
+        <member name="P:Utils.TranslatableText.TranslatableTextSettings.subKeySplitCharacter">
+            <summary>
+            The character that marks the change of subKey
+            </summary>
+        </member>
+        <member name="M:Utils.TranslatableText.SetSettings(Utils.TranslatableText.TranslatableTextSettings)">
+            <summary>
+            Tries to set the <see cref="T:Utils.TranslatableText.TranslatableTextSettings"/> for the <see cref="T:System.Reflection.Assembly"/> that calls this method
+            </summary>
+            <param name="translatableTextSettings">The <see cref="T:Utils.TranslatableText.TranslatableTextSettings"/> to set for the calling <see cref="T:System.Reflection.Assembly"/></param>
+            <returns>
+            true if it succeded setting the <see cref="T:Utils.TranslatableText.TranslatableTextSettings"/>, false if it failed
+            </returns>
+        </member>
+        <member name="M:Utils.TranslatableText.GetSettings">
+            <summary>
+            Get the <see cref="T:Utils.TranslatableText.TranslatableTextSettings"/> for the calling <see cref="T:System.Reflection.Assembly"/>
+            </summary>
+            <returns>
+            The <see cref="T:Utils.TranslatableText.TranslatableTextSettings"/> for the calling <see cref="T:System.Reflection.Assembly"/>
+            </returns>
+        </member>
+        <member name="M:Utils.TranslatableText.op_Implicit(Utils.TranslatableText)~System.String">
+            <summary>
+            An operator that implicitly converts a <see cref="T:Utils.TranslatableText"/> into a <see cref="T:System.String"/>
+            </summary>
+            <param name="t">The <see cref="T:Utils.TranslatableText"/> to convert into a <see cref="T:System.String"/></param>
+        </member>
+        <member name="M:Utils.TranslatableText.Clone">
+            <summary>
+            Creates a deep copy of the object
+            </summary>
+            <returns>A deep copy of the object</returns>
+        </member>
+        <member name="M:Utils.TranslatableText.Equals(System.Object)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="obj"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.TranslatableText.Equals(Utils.TranslatableText)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="other"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.TranslatableText.op_Equality(Utils.TranslatableText,Utils.TranslatableText)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="left"><inheritdoc/></param>
+            <param name="right"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.TranslatableText.op_Inequality(Utils.TranslatableText,Utils.TranslatableText)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="left"><inheritdoc/></param>
+            <param name="right"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.TranslatableText.GetHashCode">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.TranslatableText.ToString">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="M:Utils.TranslatableText.ToStringAsAssembly(System.Reflection.Assembly)">
+            <summary>
+            Calls <see cref="M:Utils.TranslatableText.ToString"/> as a specific <see cref="T:System.Reflection.Assembly"/>
+            </summary>
+            <param name="assembly">The <see cref="T:System.Reflection.Assembly"/> to call <see cref="M:Utils.TranslatableText.ToString"/> as</param>
+            <returns>
+            The result of <see cref="M:Utils.TranslatableText.ToString"/> if it was called by a specific <see cref="T:System.Reflection.Assembly"/>
+            </returns>
+        </member>
+        <member name="T:Utils.Utils">
+            <summary>
+            A class with multiple utility methods
+            </summary>
+        </member>
+        <member name="M:Utils.Utils.PrintIEnumerable``1(System.Collections.Generic.IEnumerable{``0},System.String,System.Func{``0,System.String})">
+            <summary>
+            Takes an IEnumerable and prints every entry in it separetly
+            </summary>
+            <param name="enumerable">The IList to print</param>
+            <param name="format">The string format to print with, defaults to "{0}"</param>
+            <param name="stringConverter">A function that converts a <typeparamref name="T"/> into a <see cref="T:System.String"/>, defaults to <see cref="M:System.Object.ToString"/></param>
+        </member>
+        <member name="M:Utils.Utils.PrintITuple(System.Runtime.CompilerServices.ITuple,System.String)">
+            <summary>
+            Takes an ITuple and prints every entry in it separetly
+            </summary>
+            <param name="tuple">The ITuple to print</param>
+            <param name="format">The string format to print with</param>
+        </member>
+        <member name="P:Utils.Utils.printColoredTextForegroundDefault">
+            <summary>
+            The default color for the foreground. Used in PrintColoredText
+            </summary>
+        </member>
+        <member name="P:Utils.Utils.printColoredTextBackgroundDefault">
+            <summary>
+            The default color for the background. Used in PrintColoredText
+            </summary>
+        </member>
+        <member name="M:Utils.Utils.PrintColoredText(System.Object)">
+            <summary>
+            Prints the object's ToString() inputted with colors signaled by '§'
+            <br/><br/>
+            [0-f] sets foreground color, [g-w] (excluding r) sets background color
+            <br/>
+            'x' resets foreground color, 'y' resets background color, and 'r' resets both
+            </summary>
+            <param name="raw">The object to print with colors</param>
+        </member>
+        <member name="M:Utils.Utils.GetUtilsVersion">
+            <summary>
+            Gets a <see cref="T:Utils.ReadOnlySemanticVersion"/> representing the current version of this library
+            </summary>
+            <returns>
+            A <see cref="T:Utils.ReadOnlySemanticVersion"/> representing the current version of this library
+            </returns>
+        </member>
+        <member name="M:Utils.Utils.GetDisplayLength(System.String)">
+            <summary>
+            Gets the display length that a string would have if used in <see cref="M:Utils.Utils.PrintColoredText(System.Object)"/>
+            </summary>
+            <param name="str">The string to check the display length</param>
+            <returns>The display length of <paramref name="str"/></returns>
+        </member>
+        <member name="M:Utils.Utils.ArgsParser(System.String[])">
+            <summary>
+            Parses a string array of arguments into a dictionary containing those arguments
+            </summary>
+            <param name="args">The args to parse</param>
+            <returns>A dictionary with the args parsed</returns>
+        </member>
+        <member name="M:Utils.Utils.Shuffle``1(System.Collections.Generic.IList{``0},System.Random)">
+            <summary>
+            Takes an IList and shuffles it
+            </summary>
+            <typeparam name="T">The type of the elements on the IList</typeparam>
+            <param name="list">The IList to shuffle</param>
+            <param name="random">An instance of System.Random to use</param>
+        </member>
+        <member name="M:Utils.Utils.BubbleSort``1(System.Collections.Generic.IList{``0})">
+            <summary>
+            Sorts an IList of IComparables with bubble sort
+            </summary>
+            <typeparam name="T">The type of the IComparables on the list</typeparam>
+            <param name="list">The list to sort</param>
+        </member>
+        <member name="M:Utils.Utils.BitsToByte(System.Boolean[])">
+            <summary>
+            Converts the first 8 bools in a bool array to a byte
+            </summary>
+            <param name="bits">The bits to convert to a byte</param>
+            <returns>A byte made of the bools</returns>
+        </member>
+        <member name="M:Utils.Utils.ByteToBits(System.Byte)">
+            <summary>
+            Converts a byte in a 8-length bool array
+            </summary>
+            <param name="b">The byte to convert to a bool array</param>
+            <returns>A bool array made of the byte</returns>
+        </member>
+        <member name="M:Utils.Utils.HexStringToByteArray(System.String)">
+            <summary>
+            Converts a hex string to a <see cref="T:System.Byte"/> <see cref="T:System.Array"/>
+            </summary>
+            <param name="hex">The hex string to convert</param>
+            <returns>
+            A <see cref="T:System.Byte"/> <see cref="T:System.Array"/> representing <paramref name="hex"/>
+            </returns>
+        </member>
+        <member name="M:Utils.Utils.AesEncrypt(System.String,System.Byte[])">
+            <summary>
+            Encrypts a string of text with the AES cryptographic algorithm
+            </summary>
+            <param name="plainText">The text to encrypt</param>
+            <param name="key">The key to use for the encryption</param>
+            <returns>
+            The data from <paramref name="plainText"/>, encrypted
+            </returns>
+        </member>
+        <member name="M:Utils.Utils.AesDecrypt(System.Byte[],System.Byte[])">
+            <summary>
+            Decrypts a <see cref="T:System.Byte"/> <see cref="T:System.Array"/> with the AES cryptographic algorithm
+            </summary>
+            <param name="encryptedText">The data to decrypt</param>
+            <param name="key">The key to use for the decryption</param>
+            <returns>
+            The data from <paramref name="encryptedText"/>, decrypted
+            </returns>
+        </member>
+        <member name="M:Utils.Utils.GetHashString(System.String)">
+            <summary>
+            Hashes the <paramref name="inputString"/> with <see cref="T:System.Security.Cryptography.SHA256"/>
+            </summary>
+            <param name="inputString">The string to hash with <see cref="T:System.Security.Cryptography.SHA256"/></param>
+            <returns>The <see cref="T:System.Security.Cryptography.SHA256"/>'d hashed version of the <paramref name="inputString"/></returns>
+        </member>
+    </members>
+</doc>
