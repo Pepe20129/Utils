@@ -110,7 +110,6 @@ public static class Logger {
 
 		string splitMessage = string.Join('\n', SplitBySpaceAndLength(prefix, message.ToString()));
 		PrintColoredText(prefix + splitMessage.Replace("\n", "\n" + new string(' ', GetDisplayLength(prefix))));
-		Console.CursorTop -= 1;
 	}
 
 	private static IEnumerable<string> SplitBySpaceAndLength(string prefix, string message) {
