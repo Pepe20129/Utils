@@ -109,6 +109,7 @@ public class Expression {
 		{ typeof(FloatValue), @"-?(?:[0-9]*\.)?[0-9]+[Ff]"},
 		{ typeof(LongValue), @"-?(?:[0-9]*\.)?[0-9]+[Ll]"},
 		{ typeof(IntegerValue), "-?[0-9]+(?<cancel>[FfLl])?" },
+		{ typeof(StringValue), @"\""(?:[^\""\\]|\\.)*\""" },
 		{ typeof(AdditionOperator), @"\+" },
 		{ typeof(SubstractionOperator), "-" },
 		{ typeof(MultiplicationOperator), @"\*" },

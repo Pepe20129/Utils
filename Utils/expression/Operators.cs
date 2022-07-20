@@ -321,12 +321,23 @@ public class AdditionOperator : NumberOperator {
 	/// <param name="left"><inheritdoc/></param>
 	/// <param name="right"><inheritdoc/></param>
 	/// <returns><inheritdoc/></returns>
+	public override bool CanOperate(Value left, Value right) => (left.value is string && right.value is string) || base.CanOperate(left, right);
+
+	/// <summary>
+	/// <inheritdoc/>
+	/// </summary>
+	/// <param name="left"><inheritdoc/></param>
+	/// <param name="right"><inheritdoc/></param>
+	/// <returns><inheritdoc/></returns>
 	public override Value Operate(Value left, Value right) {
 		if ((left.value is long && right.value is long) || (left.value is long && right.value is int) || (left.value is int && right.value is long)) {
 			return new LongValue(Convert.ToInt64(left.value) + Convert.ToInt64(right.value));
 		}
 		if (left.value is int leftInt && right.value is int rightInt) {
 			return new IntegerValue(leftInt + rightInt);
+		}
+		if (left.value is string leftString && right.value is string rightString) {
+			return new StringValue(leftString + rightString);
 		}
 		return new FloatValue(Convert.ToSingle(left.value) + Convert.ToSingle(right.value));
 	}

@@ -374,6 +374,14 @@
             <param name="raw"><inheritdoc/></param>
             <param name="expression"><inheritdoc/></param>
         </member>
+        <member name="M:Utils.expression.AdditionOperator.CanOperate(Utils.expression.Value,Utils.expression.Value)">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <param name="left"><inheritdoc/></param>
+            <param name="right"><inheritdoc/></param>
+            <returns><inheritdoc/></returns>
+        </member>
         <member name="M:Utils.expression.AdditionOperator.Operate(Utils.expression.Value,Utils.expression.Value)">
             <summary>
             <inheritdoc/>
@@ -917,6 +925,30 @@
             <param name="value">The <see cref="T:System.Single"/> value</param>
         </member>
         <member name="M:Utils.expression.FloatValue.ToString">
+            <summary>
+            <inheritdoc/>
+            </summary>
+            <returns><inheritdoc/></returns>
+        </member>
+        <member name="T:Utils.expression.StringValue">
+            <summary>
+            A <see cref="T:Utils.expression.Value"/> wrapper around a <see cref="T:System.String"/>
+            </summary>
+        </member>
+        <member name="M:Utils.expression.StringValue.#ctor(System.String,Utils.expression.Expression)">
+            <summary>
+            Creates a new <see cref="T:Utils.expression.StringValue"/> based on the value of <paramref name="raw"/>
+            </summary>
+            <param name="raw">The string repersentation of the <see cref="T:System.String"/> value of this (sorrounded by <c>"</c>)</param>
+            <param name="expression">The <see cref="T:Utils.expression.Expression"/> of which this <see cref="T:Utils.expression.Expression.Segment"/> is a part of</param>
+        </member>
+        <member name="M:Utils.expression.StringValue.#ctor(System.String)">
+            <summary>
+            Creates a new <see cref="T:Utils.expression.StringValue"/> with a specific value
+            </summary>
+            <param name="value">The <see cref="T:System.String"/> value</param>
+        </member>
+        <member name="M:Utils.expression.StringValue.ToString">
             <summary>
             <inheritdoc/>
             </summary>

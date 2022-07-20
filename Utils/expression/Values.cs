@@ -177,3 +177,31 @@ public class FloatValue : Value {
 	/// <returns><inheritdoc/></returns>
 	override public string ToString() => $"{value}f";
 }
+
+/// <summary>
+/// A <see cref="Value"/> wrapper around a <see cref="string"/>
+/// </summary>
+public class StringValue : Value {
+	/// <summary>
+	/// Creates a new <see cref="StringValue"/> based on the value of <paramref name="raw"/>
+	/// </summary>
+	/// <param name="raw">The string repersentation of the <see cref="string"/> value of this (sorrounded by <c>"</c>)</param>
+	/// <param name="expression">The <see cref="Expression"/> of which this <see cref="Segment"/> is a part of</param>
+	public StringValue(string raw, Expression expression) : base(raw, expression) {
+		value = raw[1..^1];
+	}
+
+	/// <summary>
+	/// Creates a new <see cref="StringValue"/> with a specific value
+	/// </summary>
+	/// <param name="value">The <see cref="string"/> value</param>
+	public StringValue(string value) : base(value, null) {
+		this.value = value;
+	}
+
+	/// <summary>
+	/// <inheritdoc/>
+	/// </summary>
+	/// <returns><inheritdoc/></returns>
+	override public string ToString() => $"\"{(string)value}\"";
+}
