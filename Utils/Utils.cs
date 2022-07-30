@@ -248,24 +248,6 @@ public static class Utils {
 	}
 
 	/// <summary>
-	/// Sorts an IList of IComparables with bubble sort
-	/// </summary>
-	/// <typeparam name="T">The type of the IComparables on the list</typeparam>
-	/// <param name="list">The list to sort</param>
-	public static void BubbleSort<T>(IList<T> list) where T : IComparable {
-		if (list is null)
-			throw new ArgumentNullException(nameof(list));
-
-		for (int i = 0; i < list.Count; i += 1) {
-			for (int j = 0; j < list.Count - 1 - i; j += 1) {
-				if (list[j].CompareTo(list[j + 1]) > 0) {
-					(list[j], list[j + 1]) = (list[j + 1], list[j]);
-				}
-			}
-		}
-	}
-
-	/// <summary>
 	/// Converts the first 8 bools in a bool array to a byte
 	/// </summary>
 	/// <param name="bits">The bits to convert to a byte</param>

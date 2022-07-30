@@ -53,22 +53,6 @@ public class UtilsTest {
 	}
 
 	[TestMethod]
-	public void BubbleSort() {
-		List<int> ints1 = new List<int>();
-		List<int> ints2 = new List<int>();
-		Random random = new Random();
-		for (int i = 0; i < 100; i += 1) {
-			int r = random.Next(10000);
-			ints1.Add(r);
-			ints2.Add(r);
-		}
-		BubbleSort<int>(ints1);
-		ints2.Sort();
-
-		Assert.IsTrue(Enumerable.SequenceEqual(ints1, ints2));
-	}
-
-	[TestMethod]
 	public void ArgsParser() {
 		string[] args = new string[] { "--test", "-test2", "result", "-t", "-e", "e-", "--e" };
 		Dictionary<string, string> arguments = Utils.Utils.ArgsParser(args);
