@@ -19,6 +19,17 @@ public class Expression {
 	}
 
 	/// <summary>
+	/// Makes a new <see cref="Expression"/> with specified regex strings and operator precedences
+	/// </summary>
+	/// <param name="raw">The string representation of the <see cref="Expression"/></param>
+	/// <param name="regexStrings">The regex strings</param>
+	/// <param name="operatorPrecedences">The operator precedences</param>
+	public Expression(string raw, Dictionary<Type, string> regexStrings, Dictionary<int, List<Type>> operatorPrecedences) : this(raw) {
+		this.regexStrings = regexStrings;
+		this.operatorPrecedences = operatorPrecedences;
+	}
+
+	/// <summary>
 	/// Executes the <see cref="Expression"/>
 	/// </summary>
 	/// <returns>The result of the <see cref="Expression"/></returns>
@@ -98,58 +109,74 @@ public class Expression {
 	private readonly string raw;
 
 	/// <summary>
+	/// Gets the default regex strings
+	/// </summary>
+	/// <returns>The default regex strings</returns>
+	public static Dictionary<Type, string> GetDefaultRegexStrings() {
+		return new Dictionary<Type, string> {
+			{ typeof(SubExpression), @"\((?:(?<cancel>int|float|bool)|(?>\((?<c>)|[^()]+|\)(?<-c>))*(?(c)(?!)))\)" },
+			{ typeof(AndOperator), "&&" },
+			{ typeof(OrOperator), @"\|\|" },
+			{ typeof(BooleanValue), "true|false" },
+			{ typeof(FloatValue), @"-?(?:[0-9]*\.)?[0-9]+[Ff]"},
+			{ typeof(LongValue), @"-?(?:[0-9]*\.)?[0-9]+[Ll]"},
+			{ typeof(IntegerValue), "-?[0-9]+(?<cancel>[FfLl])?" },
+			{ typeof(StringValue), @"\""(?:[^\""\\]|\\.)*\""" },
+			{ typeof(AdditionOperator), @"\+" },
+			{ typeof(SubstractionOperator), "-" },
+			{ typeof(MultiplicationOperator), @"\*" },
+			{ typeof(DivisionOperator), "/" },
+			{ typeof(RemainderOperator), "%" },
+			{ typeof(EqualityOperator), "==" },
+			{ typeof(InequalityOperator), "!=" },
+			{ typeof(NegationOperator), "!(?<cancel>=)?" },
+			{ typeof(GreaterThanOrEqualToOperator), ">=" },
+			{ typeof(LesserThanOrEqualToOperator), "<=" },
+			{ typeof(RightShiftOperator), ">>" },
+			{ typeof(LeftShiftOperator), "<<" },
+			{ typeof(GreaterThanOperator), ">(?<cancel>=|>)?" },
+			{ typeof(LesserThanOperator), "<(?<cancel>=|<)?" },
+			{ typeof(BitwiseComplementOperator), "~" },
+			{ typeof(NullValue), "null" },
+			{ typeof(NullCoalescingOperator), @"\?\?" },
+			{ typeof(LogicalAndOperator), "&(?<cancel>&)?" },
+			{ typeof(LogicalOrOperator), @"\|(?<cancel>\|)?" },
+			{ typeof(LogicalXOrOperator), @"\^" }
+		};
+	}
+
+	/// <summary>
+	/// Gets the default operator precedences
+	/// </summary>
+	/// <returns>The default operator precedences</returns>
+	public static Dictionary<int, List<Type>> GetDefaultOperatorPrecedences() {
+		return new Dictionary<int, List<Type>> {
+			{ 1, new List<Type> { typeof(NegationOperator), typeof(BitwiseComplementOperator) } },
+			{ 4, new List<Type> { typeof(MultiplicationOperator), typeof(DivisionOperator), typeof(RemainderOperator) } },
+			{ 5, new List<Type> { typeof(AdditionOperator), typeof(SubstractionOperator) } },
+			{ 6, new List<Type> { typeof(LeftShiftOperator), typeof(RightShiftOperator) } },
+			{ 7, new List<Type> { typeof(GreaterThanOrEqualToOperator), typeof(LesserThanOrEqualToOperator), typeof(GreaterThanOperator), typeof(LesserThanOperator) } },
+			{ 8, new List<Type> { typeof(EqualityOperator), typeof(InequalityOperator) } },
+			{ 9, new List<Type> { typeof(LogicalAndOperator) } },
+			{ 10, new List<Type> { typeof(LogicalXOrOperator) } },
+			{ 11, new List<Type> { typeof(LogicalOrOperator) } },
+			{ 12, new List<Type> { typeof(AndOperator) } },
+			{ 13, new List<Type> { typeof(OrOperator) } },
+			{ 14, new List<Type> { typeof(NullCoalescingOperator) } }
+		};
+	}
+
+	/// <summary>
 	/// A <see cref="Dictionary{TKey, TValue}"/> that relates the <see cref="Type"/> of a <see cref="Segment"/> with a regex string that matches them<br/>
 	/// The regex strings can have the "cancel" capture group, which if matched, the whole regex match will not match
 	/// </summary>
-	public Dictionary<Type, string> regexStrings = new Dictionary<Type, string> {
-		{ typeof(SubExpression), @"\((?:(?<cancel>int|float|bool)|(?>\((?<c>)|[^()]+|\)(?<-c>))*(?(c)(?!)))\)" },
-		{ typeof(AndOperator), "&&" },
-		{ typeof(OrOperator), @"\|\|" },
-		{ typeof(BooleanValue), "true|false" },
-		{ typeof(FloatValue), @"-?(?:[0-9]*\.)?[0-9]+[Ff]"},
-		{ typeof(LongValue), @"-?(?:[0-9]*\.)?[0-9]+[Ll]"},
-		{ typeof(IntegerValue), "-?[0-9]+(?<cancel>[FfLl])?" },
-		{ typeof(StringValue), @"\""(?:[^\""\\]|\\.)*\""" },
-		{ typeof(AdditionOperator), @"\+" },
-		{ typeof(SubstractionOperator), "-" },
-		{ typeof(MultiplicationOperator), @"\*" },
-		{ typeof(DivisionOperator), "/" },
-		{ typeof(RemainderOperator), "%" },
-		{ typeof(EqualityOperator), "==" },
-		{ typeof(InequalityOperator), "!=" },
-		{ typeof(NegationOperator), "!(?<cancel>=)?" },
-		{ typeof(GreaterThanOrEqualToOperator), ">=" },
-		{ typeof(LesserThanOrEqualToOperator), "<=" },
-		{ typeof(RightShiftOperator), ">>" },
-		{ typeof(LeftShiftOperator), "<<" },
-		{ typeof(GreaterThanOperator), ">(?<cancel>=|>)?" },
-		{ typeof(LesserThanOperator), "<(?<cancel>=|<)?" },
-		{ typeof(BitwiseComplementOperator), "~" },
-		{ typeof(NullValue), "null" },
-		{ typeof(NullCoalescingOperator), @"\?\?" },
-		{ typeof(LogicalAndOperator), "&(?<cancel>&)?" },
-		{ typeof(LogicalOrOperator), @"\|(?<cancel>\|)?" },
-		{ typeof(LogicalXOrOperator), @"\^" }
-	};
+	public Dictionary<Type, string> regexStrings = GetDefaultRegexStrings();
 
 	/// <summary>
 	/// A <see cref="Dictionary{TKey, TValue}"/> that relates an <see cref="int"/> with a <see cref="List{T}"/> of <see cref="Type"/>s of <see cref="Operator"/>s<br/>
 	/// Operators associated with a lower number will be evaluated first
 	/// </summary>
-	public Dictionary<int, List<Type>> operatorPrecedences = new Dictionary<int, List<Type>> {
-		{ 1, new List<Type> { typeof(NegationOperator), typeof(BitwiseComplementOperator) } },
-		{ 4, new List<Type> { typeof(MultiplicationOperator), typeof(DivisionOperator), typeof(RemainderOperator) } },
-		{ 5, new List<Type> { typeof(AdditionOperator), typeof(SubstractionOperator) } },
-		{ 6, new List<Type> { typeof(LeftShiftOperator), typeof(RightShiftOperator) } },
-		{ 7, new List<Type> { typeof(GreaterThanOrEqualToOperator), typeof(LesserThanOrEqualToOperator), typeof(GreaterThanOperator), typeof(LesserThanOperator) } },
-		{ 8, new List<Type> { typeof(EqualityOperator), typeof(InequalityOperator) } },
-		{ 9, new List<Type> { typeof(LogicalAndOperator) } },
-		{ 10, new List<Type> { typeof(LogicalXOrOperator) } },
-		{ 11, new List<Type> { typeof(LogicalOrOperator) } },
-		{ 12, new List<Type> { typeof(AndOperator) } },
-		{ 13, new List<Type> { typeof(OrOperator) } },
-		{ 14, new List<Type> { typeof(NullCoalescingOperator) } }
-	};
+	public Dictionary<int, List<Type>> operatorPrecedences = GetDefaultOperatorPrecedences();
 
 	/// <summary>
 	/// <inheritdoc/>
