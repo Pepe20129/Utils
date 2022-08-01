@@ -160,7 +160,7 @@ public static class Utils {
 	/// <returns>
 	/// A <see cref="ReadOnlySemanticVersion"/> representing the current version of this library
 	/// </returns>
-	public static ReadOnlySemanticVersion GetUtilsVersion() => new ReadOnlySemanticVersion("0.1.0");
+	public static ReadOnlySemanticVersion GetUtilsVersion() => new ReadOnlySemanticVersion("0.1.1");
 	
 	/// <summary>
 	/// Gets the display length that a string would have if used in <see cref="PrintColoredText(object)"/>
