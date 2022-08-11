@@ -11,18 +11,18 @@ public abstract class Value : Expression.Segment {
 	/// </summary>
 	/// <param name="raw">The string representation of this <see cref="Value"/></param>
 	/// <param name="expression">The <see cref="Expression"/> of which this <see cref="Segment"/> is a part of</param>
-	public Value(string raw, Expression expression) : base(raw, expression) {}
+	public Value(string raw, Expression? expression) : base(raw, expression) {}
 
 	/// <summary>
 	/// The value of this <see cref="Value"/>
 	/// </summary>
-	public object value { get; protected set; }
+	public object? value { get; protected set; }
 
 	/// <summary>
 	/// <inheritdoc/>
 	/// </summary>
 	/// <returns><inheritdoc/></returns>
-	override public string ToString() => value.ToString();
+	override public string? ToString() => value?.ToString();
 }
 
 /// <summary>
@@ -203,5 +203,5 @@ public class StringValue : Value {
 	/// <inheritdoc/>
 	/// </summary>
 	/// <returns><inheritdoc/></returns>
-	override public string ToString() => $"\"{(string)value}\"";
+	override public string ToString() => $"\"{(string)value!}\"";
 }

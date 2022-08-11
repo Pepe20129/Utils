@@ -27,13 +27,13 @@ public static class Utils {
 	/// <param name="format">The string format to print with, defaults to "{0}"</param>
 	/// <param name="stringConverter">A function that converts a <typeparamref name="T"/> into a <see cref="string"/>, defaults to <see cref="object.ToString"/></param>
 	[ExcludeFromCodeCoverage]
-	public static void PrintIEnumerable<T>(IEnumerable<T> enumerable, string format = "{0}", Func<T, string> stringConverter = null) {
-		stringConverter ??= [ExcludeFromCodeCoverage] (t) => t.ToString();
+	public static void PrintIEnumerable<T>(IEnumerable<T> enumerable, string format = "{0}", Func<T, string?>? stringConverter = null) {
+		stringConverter ??= [ExcludeFromCodeCoverage] (t) => t?.ToString();
 		foreach (T t in enumerable) {
 			if (t is null)
 				PrintColoredText(string.Format(format, "null"));
 			else
-				PrintColoredText(string.Format(format, stringConverter.Invoke(t)));
+				PrintColoredText(string.Format(format, stringConverter.Invoke(t) ?? "null"));
 		}
 	}
 
@@ -69,10 +69,9 @@ public static class Utils {
 	/// <param name="raw">The object to print with colors</param>
 	[ExcludeFromCodeCoverage]
 	public static void PrintColoredText(object raw) {
-		if (raw is null)
-			throw new ArgumentNullException(nameof(raw));
+		ArgumentNullException.ThrowIfNull(raw, nameof(raw));
 
-		string rawString = raw.ToString();
+		string rawString = raw.ToString() ?? throw new ArgumentException($"{nameof(raw)}.ToString() returned null", nameof(raw));
 		if (!rawString.Contains('§')) {
 			Console.WriteLine(rawString);
 			return;
@@ -236,9 +235,8 @@ public static class Utils {
 	/// <typeparam name="T">The type of the elements on the IList</typeparam>
 	/// <param name="list">The IList to shuffle</param>
 	/// <param name="random">An instance of System.Random to use</param>
-	public static void Shuffle<T>(IList<T> list, Random random = null) {
-		if (list is null)
-			throw new ArgumentNullException(nameof(list));
+	public static void Shuffle<T>(IList<T> list, Random? random = null) {
+		ArgumentNullException.ThrowIfNull(list, nameof(list));
 
 		random ??= new Random();
 		for (int i = 1; i < list.Count; i += 1) {
@@ -360,7 +358,7 @@ public static class Utils {
 
 		// Declare the string used to hold
 		// the decrypted text.
-		string plaintext = null;
+		string plaintext;
 
 		// Create an Aes object
 		// with the specified key and IV.

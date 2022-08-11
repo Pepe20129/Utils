@@ -39,7 +39,7 @@ public class Expression {
 			segmentRegexString += pair.Value + "|";
 		}
 
-		List<Segment> segments = new List<Segment>();
+		List<Segment?> segments = new List<Segment?>();
 		//..^1 is to remove the last |
 		foreach (Match match in new Regex(segmentRegexString[..^1]).Matches(raw))
 			segments.Add(CreateSegment(match.Value));
@@ -48,28 +48,28 @@ public class Expression {
 			int i = 0;
 			while (i < segments.Count) {
 				//if it's not an operator, or the operator is not on the current "level", ignore it
-				if (segments[i] is not Operator || !currentOperatorTypes.Value.Contains(segments[i].GetType())) {
+				if (segments[i] is not Operator || !currentOperatorTypes.Value.Contains(segments[i]!.GetType())) {
 					i += 1;
 					continue;
 				}
 
 				if (segments[i] is DualOperator dualOperator) {
-					if (!dualOperator.CanOperate((Value)segments[i - 1], (Value)segments[i + 1]))
-						throw new OperatorException($"Operator \"{segments[i].GetType()}\" can't operate on \"{segments[i - 1].GetType()}\" ({((Value)segments[i - 1]).value}) & \"{segments[i + 1].GetType()}\" ({((Value)segments[i + 1]).value})");
-					segments[i] = dualOperator.Operate((Value)segments[i - 1], (Value)segments[i + 1]);
+					if (!dualOperator.CanOperate((Value)segments[i - 1]!, (Value)segments[i + 1]!))
+						throw new OperatorException($"Operator \"{segments[i]!.GetType()}\" can't operate on \"{segments[i - 1]!.GetType()}\" ({((Value)segments[i - 1]!).value}) & \"{segments[i + 1]!.GetType()}\" ({((Value)segments[i + 1]!).value})");
+					segments[i] = dualOperator.Operate((Value)segments[i - 1]!, (Value)segments[i + 1]!);
 					segments[i - 1] = null;
 					segments[i + 1] = null;
 				} else if (segments[i] is UnaryOperator unaryOperator) {
-					if (!unaryOperator.CanOperate((Value)segments[i + 1]))
-						throw new OperatorException($"Operator \"{segments[i].GetType()}\" can't operate on \"{segments[i + 1].GetType()}\" ({((Value)segments[i + 1]).value})");
-					segments[i] = unaryOperator.Operate((Value)segments[i + 1]);
+					if (!unaryOperator.CanOperate((Value)segments[i + 1]!))
+						throw new OperatorException($"Operator \"{segments[i]!.GetType()}\" can't operate on \"{segments[i + 1]!.GetType()}\" ({((Value)segments[i + 1]!).value})");
+					segments[i] = unaryOperator.Operate((Value)segments[i + 1]!);
 					segments[i + 1] = null;
 				}
 				segments = segments.Where(segment => segment is not null).ToList();
 				i = 1;
 			}
 		}
-		return (Value)segments[0];
+		return (Value)segments[0]!;
 	}
 
 	/// <summary>
@@ -84,17 +84,17 @@ public class Expression {
 	}
 
 	private Segment CreateSegment(string raw) {
-		Segment segment = null;
+		Segment? segment = null;
 		foreach (KeyValuePair<Type, string> pair in regexStrings) {
 			Match match = new Regex(pair.Value, RegexOptions.IgnoreCase).Match(raw);
 			if (segment is null && match.Value == raw && !match.Groups["cancel"].Success) {
-				ConstructorInfo constructorInfo = pair.Key.GetConstructor(BindingFlags.Instance | BindingFlags.Public, null, CallingConventions.HasThis, new Type[] { typeof(string), typeof(Expression) }, null);
+				ConstructorInfo? constructorInfo = pair.Key.GetConstructor(BindingFlags.Instance | BindingFlags.Public, null, CallingConventions.HasThis, new Type[] { typeof(string), typeof(Expression) }, null);
 				if (constructorInfo is null)
 					throw new Exception($"No valid constructor found for type {pair.Key}");
 				try {
 					segment = (Segment)constructorInfo.Invoke(new object[] { raw, this });
 				} catch (TargetInvocationException e) {
-					throw e.InnerException;
+					throw e.InnerException ?? e;
 				}
 				break;
 			}
@@ -194,7 +194,7 @@ public class Expression {
 		/// </summary>
 		/// <param name="raw">The string representation of this <see cref="Segment"/></param>
 		/// <param name="expression">The <see cref="Expression"/> of which this <see cref="Segment"/> is a part of</param>
-		private protected Segment(string raw, Expression expression) {}
+		private protected Segment(string raw, Expression? expression) {}
 	}
 	#pragma warning restore IDE0060
 }

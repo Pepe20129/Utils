@@ -14,7 +14,7 @@ public class ReadOnlySemanticVersion : SemanticVersion {
 	/// <param name="patch">The patch version</param>
 	/// <param name="preRelease">The pre-release</param>
 	/// <param name="buildMetadata">The build metadata</param>
-	public ReadOnlySemanticVersion(BigInteger major, BigInteger minor, BigInteger patch, string preRelease = null, string buildMetadata = null) : base(major, minor, patch, preRelease, buildMetadata) {}
+	public ReadOnlySemanticVersion(BigInteger major, BigInteger minor, BigInteger patch, string? preRelease = null, string? buildMetadata = null) : base(major, minor, patch, preRelease, buildMetadata) {}
 
 	/// <summary>
 	/// <inheritdoc cref="SemanticVersion(string)"/>

@@ -17,7 +17,7 @@ public class SemanticVersionRange : IEquatable<SemanticVersionRange> {
 	/// <param name="max"><inheritdoc cref="max"/></param>
 	/// <param name="maxActive"><inheritdoc cref="maxActive"/></param>
 	/// <param name="includePrereleases"><inheritdoc cref="includePrereleases"/></param>
-	public SemanticVersionRange(SemanticVersion min, bool minActive, SemanticVersion max, bool maxActive, bool includePrereleases) {
+	public SemanticVersionRange(SemanticVersion? min, bool minActive, SemanticVersion? max, bool maxActive, bool includePrereleases) {
 		this.min = min;
 		this.minActive = minActive;
 		this.max = max;
@@ -312,7 +312,7 @@ public class SemanticVersionRange : IEquatable<SemanticVersionRange> {
 	/// <param name="semanticVersion">The <see cref="SemanticVersion"/> to check</param>
 	/// <returns>Whether or not <paramref name="semanticVersion"/> is included in this <see cref="SemanticVersionRange"/></returns>
 	public bool Includes(SemanticVersion semanticVersion) {
-		if (semanticVersion is null || (minActive && semanticVersion < min) || (maxActive && semanticVersion >= max)) {
+		if (semanticVersion is null || (minActive && semanticVersion < min!) || (maxActive && semanticVersion >= max!)) {
 			return false;
 		}
 		//if we don't include pre-releases of a different [major, minor, patch] tuple and the version specified has a pre-release
@@ -320,9 +320,9 @@ public class SemanticVersionRange : IEquatable<SemanticVersionRange> {
 			//if (the version specified has (a different tuple from min) and (a different tuple from max)) or
 			//(it has the same tuple as one of them and that one doesn't have a pre-release), return false
 			//                           ^_______________|
-			if (((!minActive || !HaveSameTuple(semanticVersion, min)) && (!maxActive || !HaveSameTuple(semanticVersion, max))) ||
-				(minActive && HaveSameTuple(semanticVersion, min) && (min.preRelease == string.Empty || min.preRelease == "0")) ||
-				(maxActive && HaveSameTuple(semanticVersion, max) && (max.preRelease == string.Empty || max.preRelease == "0"))) {
+			if (((!minActive || !HaveSameTuple(semanticVersion, min!)) && (!maxActive || !HaveSameTuple(semanticVersion, max!))) ||
+				(minActive && HaveSameTuple(semanticVersion, min!) && (min!.preRelease == string.Empty || min!.preRelease == "0")) ||
+				(maxActive && HaveSameTuple(semanticVersion, max!) && (max!.preRelease == string.Empty || max!.preRelease == "0"))) {
 				return false;
 			} else {
 				//this only happens if the version specified has a pre-release and the same [major, minor, patch] tuple as one of the limit ones which also has a pre-release
@@ -337,14 +337,14 @@ public class SemanticVersionRange : IEquatable<SemanticVersionRange> {
 	/// </summary>
 	/// <param name="obj"><inheritdoc/></param>
 	/// <returns><inheritdoc/></returns>
-	override public bool Equals(object obj) => obj is SemanticVersionRange semanticVersionRange && Equals(semanticVersionRange);
+	override public bool Equals(object? obj) => obj is SemanticVersionRange semanticVersionRange && Equals(semanticVersionRange);
 
 	/// <summary>
 	/// <inheritdoc/>
 	/// </summary>
 	/// <param name="other"><inheritdoc/></param>
 	/// <returns><inheritdoc/></returns>
-	public bool Equals(SemanticVersionRange other) => other is not null && other.min == min && other.minActive == minActive && other.max == max && other.maxActive == maxActive && other.includePrereleases == includePrereleases;
+	public bool Equals(SemanticVersionRange? other) => other is not null && other.min == min && other.minActive == minActive && other.max == max && other.maxActive == maxActive && other.includePrereleases == includePrereleases;
 
 	/// <summary>
 	/// <inheritdoc/>
@@ -362,7 +362,7 @@ public class SemanticVersionRange : IEquatable<SemanticVersionRange> {
 		}
 		if (minActive) {
 			if (maxActive) {
-				SemanticVersion semVer = max.Clone();
+				SemanticVersion semVer = max!.Clone();
 				semVer.preRelease = string.Empty;
 				semVer.patch -= 1;
 				return $"{min} - {((max.preRelease == "0" && max.patch > 0) ? semVer : throw new NotImplementedException())}";
@@ -388,12 +388,12 @@ public class SemanticVersionRange : IEquatable<SemanticVersionRange> {
 	private static readonly Regex X_REGEX = new Regex(@"^(?<major>0|[1-9]\d*)\.(?:(?<minor>[xX*])(?:\.(?<patch>[xX*]))?|(?<minor>0|[1-9]\d*)(?:\.(?<patch>[xX*])))(?:-(?<prerelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+(?<buildmetadata>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$");
 	private static readonly Regex PARTIAL_HYPHEN_REGEX = new Regex(@"^(?<major1>0|[1-9]\d*)(?:\.(?<minor1>0|[1-9]\d*)(?:\.(?<patch1>0|[1-9]\d*)(?:-(?<prerelease1>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+(?<buildmetadata1>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)?)? - (?<major2>0|[1-9]\d*)(?:\.(?<minor2>0|[1-9]\d*)(?:\.(?<patch2>0|[1-9]\d*)(?:-(?<prerelease2>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+(?<buildmetadata2>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)?)?$");
 
-	private readonly string raw;
+	private readonly string? raw;
 
 	/// <summary>
 	/// The minimum (inclusive) version that a <see cref="SemanticVersion"/> must be to be included in this <see cref="SemanticVersionRange"/>
 	/// </summary>
-	public SemanticVersion min { get; set; }
+	public SemanticVersion? min { get; set; }
 
 	/// <summary>
 	/// Whether <see cref="min"/> is active or not
@@ -403,7 +403,7 @@ public class SemanticVersionRange : IEquatable<SemanticVersionRange> {
 	/// <summary>
 	/// The maximum (exclusive) version that a <see cref="SemanticVersion"/> must be to be included in this <see cref="SemanticVersionRange"/>
 	/// </summary>
-	public SemanticVersion max { get; set; }
+	public SemanticVersion? max { get; set; }
 
 	/// <summary>
 	/// Whether <see cref="max"/> is active or not

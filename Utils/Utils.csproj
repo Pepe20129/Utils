@@ -4,6 +4,7 @@
     <Version>0.1.0</Version>
     <Authors>Pablo#1981/Pepe20129</Authors>
     <Copyright>GPLv3</Copyright>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

@@ -102,13 +102,14 @@ public static class Logger {
 	/// <param name="prefix">The custom prefix for this <paramref name="message"/></param>
 	/// <param name="message">The message to log</param>
 	public static void Log(int level, string prefix, object message) {
+		ArgumentNullException.ThrowIfNull(message, nameof(message));
 		if (logToFile)
 			log += $"[{DateTime.Now:HH:mm:ss}] " + prefix + message.ToString() + "\n";
 
 		if (level > visibilityLevel)
 			return;
 
-		string splitMessage = string.Join('\n', SplitBySpaceAndLength(prefix, message.ToString()));
+		string splitMessage = string.Join('\n', SplitBySpaceAndLength(prefix, message.ToString() ?? string.Empty));
 		PrintColoredText(prefix + splitMessage.Replace("\n", "\n" + new string(' ', GetDisplayLength(prefix))));
 	}
 
@@ -127,7 +128,7 @@ public static class Logger {
 		}
 	}
 
-	private static void OnProcessExit(object sender, EventArgs e) {
+	private static void OnProcessExit(object? sender, EventArgs? e) {
 		SaveLog();
 	}
 }

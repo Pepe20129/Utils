@@ -132,14 +132,14 @@ public class TranslatableText : IEquatable<TranslatableText> {
 	/// </summary>
 	/// <param name="obj"><inheritdoc/></param>
 	/// <returns><inheritdoc/></returns>
-	override public bool Equals(object obj) => (obj is TranslatableText || obj is string) && obj.ToString() == ToString();
+	override public bool Equals(object? obj) => (obj is TranslatableText || obj is string) && obj.ToString() == ToString();
 
 	/// <summary>
 	/// <inheritdoc/>
 	/// </summary>
 	/// <param name="other"><inheritdoc/></param>
 	/// <returns><inheritdoc/></returns>
-	public bool Equals(TranslatableText other) => other is not null && other.ToString() == ToString();
+	public bool Equals(TranslatableText? other) => other is not null && other.ToString() == ToString();
 
 	/// <summary>
 	/// <inheritdoc/>

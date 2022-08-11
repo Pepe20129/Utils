@@ -76,7 +76,7 @@ public class SemanticVersionRangeSet : IEquatable<SemanticVersionRangeSet> {
 	/// </summary>
 	/// <param name="other"><inheritdoc/></param>
 	/// <returns><inheritdoc/></returns>
-	public bool Equals(SemanticVersionRangeSet other) {
+	public bool Equals(SemanticVersionRangeSet? other) {
 		if (other is null) {
 			return false;
 		}
@@ -99,7 +99,7 @@ public class SemanticVersionRangeSet : IEquatable<SemanticVersionRangeSet> {
 	/// </summary>
 	/// <param name="obj"><inheritdoc/></param>
 	/// <returns><inheritdoc/></returns>
-	override public bool Equals(object obj) => obj is SemanticVersionRangeSet semanticVersionRangeSet && Equals(semanticVersionRangeSet);
+	override public bool Equals(object? obj) => obj is SemanticVersionRangeSet semanticVersionRangeSet && Equals(semanticVersionRangeSet);
 
 	/// <summary>
 	/// <inheritdoc/>

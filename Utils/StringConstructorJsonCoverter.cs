@@ -26,7 +26,7 @@ public class StringConstructorJsonCoverterFactory : JsonConverterFactory {
 	/// <returns><inheritdoc/></returns>
 	public override JsonConverter CreateConverter(Type typeToConvert, JsonSerializerOptions options) {
 		Type genericTestType = typeof(StringConstructorJsonCoverter<>).MakeGenericType(typeToConvert);
-		return (JsonConverter)Activator.CreateInstance(genericTestType);
+		return (JsonConverter)Activator.CreateInstance(genericTestType)!;
 	}
 }
 
@@ -54,7 +54,7 @@ public class StringConstructorJsonCoverter<T> : JsonConverter<T> {
 	/// <param name="options"><inheritdoc/></param>
 	/// <returns><inheritdoc/></returns>
 	override public T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
-		return (T)typeToConvert.GetConstructor(BindingFlags.Instance | BindingFlags.Public, null, CallingConventions.HasThis, new Type[] { typeof(string) }, null).Invoke(new object[] { reader.GetString()! });
+		return (T)(typeToConvert.GetConstructor(BindingFlags.Instance | BindingFlags.Public, null, CallingConventions.HasThis, new Type[] { typeof(string) }, null)?.Invoke(new object?[] { reader.GetString() }) ?? throw new ArgumentException($"{typeToConvert} did not have a valid constructor", nameof(typeToConvert)));
 	}
 
 	/// <summary>
@@ -65,7 +65,7 @@ public class StringConstructorJsonCoverter<T> : JsonConverter<T> {
 	/// <param name="options"><inheritdoc/></param>
 	/// <returns><inheritdoc/></returns>
 	override public T ReadAsPropertyName(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
-		return (T)typeToConvert.GetConstructor(BindingFlags.Instance | BindingFlags.Public, null, CallingConventions.HasThis, new Type[] { typeof(string) }, null).Invoke(new object[] { reader.GetString()! });
+		return (T)(typeToConvert.GetConstructor(BindingFlags.Instance | BindingFlags.Public, null, CallingConventions.HasThis, new Type[] { typeof(string) }, null)?.Invoke(new object?[] { reader.GetString() }) ?? throw new ArgumentException($"{typeToConvert} did not have a valid constructor", nameof(typeToConvert)));
 	}
 
 	/// <summary>
@@ -75,6 +75,7 @@ public class StringConstructorJsonCoverter<T> : JsonConverter<T> {
 	/// <param name="value"><inheritdoc/></param>
 	/// <param name="options"><inheritdoc/></param>
 	override public void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options) {
+		ArgumentNullException.ThrowIfNull(value, nameof(value));
 		writer.WriteStringValue(value.ToString());
 	}
 
@@ -85,6 +86,7 @@ public class StringConstructorJsonCoverter<T> : JsonConverter<T> {
 	/// <param name="value"><inheritdoc/></param>
 	/// <param name="options"><inheritdoc/></param>
 	override public void WriteAsPropertyName(Utf8JsonWriter writer, T value, JsonSerializerOptions options) {
+		ArgumentNullException.ThrowIfNull(value, nameof(value));
 		writer.WriteStringValue(value.ToString());
 	}
 }

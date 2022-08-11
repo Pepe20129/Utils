@@ -64,7 +64,7 @@ public class NegationOperator : UnaryOperator {
 	/// </summary>
 	/// <param name="value"><inheritdoc/></param>
 	/// <returns><inheritdoc/></returns>
-	public override Value Operate(Value value) => new BooleanValue(!(bool)value.value);
+	public override Value Operate(Value value) => new BooleanValue(!(bool)value.value!);
 
 	/// <summary>
 	/// <inheritdoc/>
@@ -96,7 +96,7 @@ public class BitwiseComplementOperator : UnaryOperator {
 	/// </summary>
 	/// <param name="value"><inheritdoc/></param>
 	/// <returns><inheritdoc/></returns>
-	public override Value Operate(Value value) => new IntegerValue(~(int)value.value);
+	public override Value Operate(Value value) => new IntegerValue(~(int)value.value!);
 
 	/// <summary>
 	/// <inheritdoc/>
@@ -170,7 +170,7 @@ public class AndOperator : BooleanOperator {
 	/// <param name="left"><inheritdoc/></param>
 	/// <param name="right"><inheritdoc/></param>
 	/// <returns><inheritdoc/></returns>
-	override public Value Operate(Value left, Value right) => new BooleanValue((bool)left.value && (bool)right.value);
+	override public Value Operate(Value left, Value right) => new BooleanValue((bool)left.value! && (bool)right.value!);
 
 	/// <summary>
 	/// <inheritdoc/>
@@ -196,7 +196,7 @@ public class LogicalAndOperator : BooleanOperator {
 	/// <param name="left"><inheritdoc/></param>
 	/// <param name="right"><inheritdoc/></param>
 	/// <returns><inheritdoc/></returns>
-	override public Value Operate(Value left, Value right) => new BooleanValue((bool)left.value & (bool)right.value);
+	override public Value Operate(Value left, Value right) => new BooleanValue((bool)left.value! & (bool)right.value!);
 
 	/// <summary>
 	/// <inheritdoc/>
@@ -222,7 +222,7 @@ public class OrOperator : BooleanOperator {
 	/// <param name="left"><inheritdoc/></param>
 	/// <param name="right"><inheritdoc/></param>
 	/// <returns><inheritdoc/></returns>
-	override public Value Operate(Value left, Value right) => new BooleanValue((bool)left.value || (bool)right.value);
+	override public Value Operate(Value left, Value right) => new BooleanValue((bool)left.value! || (bool)right.value!);
 
 	/// <summary>
 	/// <inheritdoc/>
@@ -248,7 +248,7 @@ public class LogicalOrOperator : BooleanOperator {
 	/// <param name="left"><inheritdoc/></param>
 	/// <param name="right"><inheritdoc/></param>
 	/// <returns><inheritdoc/></returns>
-	override public Value Operate(Value left, Value right) => new BooleanValue((bool)left.value | (bool)right.value);
+	override public Value Operate(Value left, Value right) => new BooleanValue((bool)left.value! | (bool)right.value!);
 
 	/// <summary>
 	/// <inheritdoc/>
