@@ -33,9 +33,6 @@ public class SemanticVersionRangeTest {
 	[TestMethod]
 	public void Incorrect() {
 		string[] strings = new string[] {
-			"",
-			"1",
-			"1.2",
 			"1.2.3.4",
 			"ewsrdtgs",
 			"!1.7.9",
