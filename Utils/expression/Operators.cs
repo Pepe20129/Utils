@@ -178,7 +178,7 @@ public class LogicalXOrOperator : BooleanOperator {
 	public LogicalXOrOperator(string raw, Expression expression) : base(raw, expression) {}
 
 	/// <inheritdoc/>
-	override public Value Operate(Value left, Value right) => new BooleanValue((bool)left.value ^ (bool)right.value);
+	override public Value Operate(Value left, Value right) => new BooleanValue((bool)left.value! ^ (bool)right.value!);
 
 	/// <inheritdoc/>
 	override public string ToString() => "^";
@@ -302,7 +302,7 @@ public class RemainderOperator : DualOperator {
 		if (left.value is long || right.value is long) {
 			return new LongValue(Convert.ToInt64(left.value) % Convert.ToInt64(right.value));
 		}
-		return new IntegerValue((int)left.value % (int)right.value);
+		return new IntegerValue((int)left.value! % (int)right.value!);
 	}
 
 	/// <inheritdoc/>
@@ -323,7 +323,7 @@ public class EqualityOperator : DualOperator {
 	public override bool CanOperate(Value left, Value right) => true;
 
 	/// <inheritdoc/>
-	public override Value Operate(Value left, Value right) => new BooleanValue(left.value.Equals(right.value));
+	public override Value Operate(Value left, Value right) => new BooleanValue(left.value is null ? right.value is null : left.value.Equals(right.value));
 
 	/// <inheritdoc/>
 	override public string ToString() => "==";
@@ -340,7 +340,7 @@ public class InequalityOperator : DualOperator {
 	public override bool CanOperate(Value left, Value right) => true;
 
 	/// <inheritdoc/>
-	public override Value Operate(Value left, Value right) => new BooleanValue(!left.value.Equals(right.value));
+	public override Value Operate(Value left, Value right) => new BooleanValue(left.value is null ? right.value is not null : !left.value.Equals(right.value));
 
 	/// <inheritdoc/>
 	override public string ToString() => "!=";
@@ -430,7 +430,7 @@ public class LeftShiftOperator : DualOperator {
 	public LeftShiftOperator(string raw, Expression expression) : base(raw, expression) {}
 
 	/// <inheritdoc/>
-	public override Value Operate(Value left, Value right) => new IntegerValue((int)left.value << (int)right.value);
+	public override Value Operate(Value left, Value right) => new IntegerValue((int)left.value! << (int)right.value!);
 
 	/// <inheritdoc/>
 	override public bool CanOperate(Value left, Value right) => left.value is int && right.value is int;
@@ -447,7 +447,7 @@ public class RightShiftOperator : DualOperator {
 	public RightShiftOperator(string raw, Expression expression) : base(raw, expression) {}
 
 	/// <inheritdoc/>
-	public override Value Operate(Value left, Value right) => new IntegerValue((int)left.value >> (int)right.value);
+	public override Value Operate(Value left, Value right) => new IntegerValue((int)left.value! >> (int)right.value!);
 
 	/// <inheritdoc/>
 	override public bool CanOperate(Value left, Value right) => left.value is int && right.value is int;
