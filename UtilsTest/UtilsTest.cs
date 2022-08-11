@@ -113,35 +113,14 @@ public class UtilsTest {
 		string decryptedData = AesDecrypt(encryptedData, key);
 		Assert.IsTrue(message == decryptedData);
 
-		try {
-			_ = AesEncrypt(message, null);
-			Assert.Fail();
-		} catch (ArgumentNullException) {}
-
-		try {
-			_ = AesDecrypt(encryptedData, null);
-			Assert.Fail();
-		} catch (ArgumentNullException) {}
-
-		try {
-			_ = AesEncrypt(null, key);
-			Assert.Fail();
-		} catch (ArgumentNullException) {}
-
-		try {
-			_ = AesDecrypt(null, key);
-			Assert.Fail();
-		} catch (ArgumentNullException) {}
-
-		try {
-			_ = AesEncrypt(message, key[..^1]);
-			Assert.Fail();
-		} catch (ArgumentException) {}
-
-		try {
-			_ = AesDecrypt(encryptedData, key[..^1]);
-			Assert.Fail();
-		} catch (ArgumentException) {}
+		Assert.ThrowsException<ArgumentNullException>(() => _ = AesEncrypt(message, null));
+		Assert.ThrowsException<ArgumentNullException>(() => _ = AesDecrypt(encryptedData, null));
+		Assert.ThrowsException<ArgumentNullException>(() => _ = AesEncrypt(null, key));
+		Assert.ThrowsException<ArgumentNullException>(() => _ = AesDecrypt(null, key));
+		Assert.ThrowsException<ArgumentNullException>(() => _ = AesEncrypt(null, null));
+		Assert.ThrowsException<ArgumentNullException>(() => _ = AesDecrypt(null, null));
+		Assert.ThrowsException<ArgumentException>(() => _ = AesEncrypt(message, key[..^1]));
+		Assert.ThrowsException<ArgumentException>(() => _ = AesDecrypt(encryptedData, key[..^1]));
 	}
 	
 	[TestMethod]

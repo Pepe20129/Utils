@@ -55,11 +55,7 @@ public class SemanticVersionRangeTest {
 		};
 		
 		for (int i = 0; i < strings.Length; i += 1) {
-			try {
-				_ = new SemanticVersionRange(strings[i]);
-
-				Assert.Fail();
-			} catch {}
+			Assert.ThrowsException<SemanticVersionRange.InvalidSemanticVersionRangeException>(() => _ = new SemanticVersionRange(strings[i]));
 		}
 	}
 

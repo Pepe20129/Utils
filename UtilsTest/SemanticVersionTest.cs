@@ -48,7 +48,6 @@ public class SemanticVersionTest {
 			Assert.IsFalse(smaller < null);
 			Assert.IsFalse(bigger < null);
 		}
-		
 	}
 
 	[TestMethod]
@@ -298,12 +297,7 @@ public class SemanticVersionTest {
 		};
 		
 		for (int i = 0; i < invalid.GetLength(0); i += 1) {
-			try {
-				//create the invalid SemanticVersion
-				_ = new SemanticVersion(invalid[i]);
-
-				Assert.Fail();
-			} catch {}
+			Assert.ThrowsException<SemanticVersion.InvalidSemanticVersionException>(() => _ = new SemanticVersion(invalid[i]));
 		}
 
 		Assert.IsTrue(new SemanticVersion(new BigInteger(0), new BigInteger(0), new BigInteger(0)).preRelease == string.Empty);

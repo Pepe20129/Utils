@@ -67,30 +67,12 @@ public class TranslatableTextTest {
 		Assert.IsFalse((TranslatableText)null == new TranslatableText("test2.a"));
 		Assert.IsTrue((TranslatableText)null == (TranslatableText)null);
 
-		try {
-			_ = new TranslatableText("test2");
-			Assert.Fail();
-		} catch {}
-
-		try {
-			_ = new TranslatableText("test3");
-			Assert.Fail();
-		} catch {}
-
-		try {
-			_ = new TranslatableText("test2.a.b");
-			Assert.Fail();
-		} catch {}
-
-		try {
-			_ = new TranslatableText(string.Empty);
-			Assert.Fail();
-		} catch {}
-
-		try {
-			_ = new TranslatableText("test", (Assembly)null);
-			Assert.Fail();
-		} catch {}
+		Assert.ThrowsException<TranslatableText.TranslatableKeyNotFoundException>(() => _ = new TranslatableText("test2"));
+		Assert.ThrowsException<TranslatableText.TranslatableKeyNotFoundException>(() => _ = new TranslatableText("test3"));
+		Assert.ThrowsException<TranslatableText.TranslatableKeyNotFoundException>(() => _ = new TranslatableText("test2.a.b"));
+		Assert.ThrowsException<TranslatableText.TranslatableKeyNotFoundException>(() => _ = new TranslatableText(string.Empty));
+		Assert.ThrowsException<ArgumentNullException>(() => _ = new TranslatableText(null));
+		Assert.ThrowsException<ArgumentNullException>(() => _ = new TranslatableText("test", (Assembly)null));
 
 		settings = settings with {
 			error = false

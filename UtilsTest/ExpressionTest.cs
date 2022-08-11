@@ -113,80 +113,27 @@ public class ExpressionTest {
 			}
 		}
 
-		try {
-			_ = new Expression("5 % true").Execute();
-			Assert.Fail();
-		} catch (Expression.OperatorException) {}
+		List<string> invalidExpressions = new List<string> {
+			"5 % true",
+			"true % 5",
+			"true % true",
+			"5 && true",
+			"true && 5",
+			"5 && 5",
+			"5 + true",
+			"false * 2",
+			"false << 2",
+			"false >> 2",
+			"2 << false",
+			"2 >> false",
+			"false >> false",
+			"false << false",
+			"!5"
+		};
 
-		try {
-			_ = new Expression("true % 5").Execute();
-			Assert.Fail();
-		} catch (Expression.OperatorException) {}
-
-		try {
-			_ = new Expression("true % true").Execute();
-			Assert.Fail();
-		} catch (Expression.OperatorException) {}
-
-		try {
-			_ = new Expression("5 && true").Execute();
-			Assert.Fail();
-		} catch (Expression.OperatorException) {}
-
-		try {
-			_ = new Expression("true && 5").Execute();
-			Assert.Fail();
-		} catch (Expression.OperatorException) {}
-
-		try {
-			_ = new Expression("5 && 5").Execute();
-			Assert.Fail();
-		} catch (Expression.OperatorException) {}
-
-		try {
-			_ = new Expression("5 + true").Execute();
-			Assert.Fail();
-		} catch (Expression.OperatorException) {}
-
-		try {
-			_ = new Expression("false * 2").Execute();
-			Assert.Fail();
-		} catch (Expression.OperatorException) {}
-
-		try {
-			_ = new Expression("false << 2").Execute();
-			Assert.Fail();
-		} catch (Expression.OperatorException) {}
-
-		try {
-			_ = new Expression("false >> 2").Execute();
-			Assert.Fail();
-		} catch (Expression.OperatorException) {}
-
-		try {
-			_ = new Expression("2 << false").Execute();
-			Assert.Fail();
-		} catch (Expression.OperatorException) {}
-
-		try {
-			_ = new Expression("2 >> false").Execute();
-			Assert.Fail();
-		} catch (Expression.OperatorException) {}
-
-		try {
-			_ = new Expression("false >> false").Execute();
-			Assert.Fail();
-		} catch (Expression.OperatorException) {}
-
-		try {
-			_ = new Expression("false << false").Execute();
-			Assert.Fail();
-		} catch (Expression.OperatorException) {}
-
-		try {
-			_ = new Expression("!5").Execute();
-			Assert.Fail();
-		} catch (Expression.OperatorException) {}
+		foreach (string invalidExpression in invalidExpressions) {
+			Assert.ThrowsException<Expression.OperatorException>(() => _ = new Expression(invalidExpression).Execute());
+		}
 	}
 
 	[TestMethod]
