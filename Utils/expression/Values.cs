@@ -18,10 +18,7 @@ public abstract class Value : Expression.Segment {
 	/// </summary>
 	public object? value { get; protected set; }
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <returns><inheritdoc/></returns>
 	override public string? ToString() => value?.ToString();
 }
 
@@ -71,10 +68,7 @@ public class NullValue : Value {
 		value = null;
 	}
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <returns><inheritdoc/></returns>
 	override public string ToString() => "null";
 }
 
@@ -143,10 +137,7 @@ public class LongValue : Value {
 		this.value = value;
 	}
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <returns><inheritdoc/></returns>
 	override public string ToString() => $"{value}L";
 }
 
@@ -171,10 +162,7 @@ public class FloatValue : Value {
 		this.value = value;
 	}
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <returns><inheritdoc/></returns>
 	override public string ToString() => $"{value}f";
 }
 
@@ -199,9 +187,6 @@ public class StringValue : Value {
 		this.value = value;
 	}
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <returns><inheritdoc/></returns>
 	override public string ToString() => $"\"{(string)value!}\"";
 }

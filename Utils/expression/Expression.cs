@@ -178,10 +178,7 @@ public class Expression {
 	/// </summary>
 	public Dictionary<int, List<Type>> operatorPrecedences = GetDefaultOperatorPrecedences();
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <returns><inheritdoc/></returns>
 	override public string ToString() => raw;
 	
 	#pragma warning disable IDE0060

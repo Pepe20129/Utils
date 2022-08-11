@@ -30,12 +30,7 @@ public class SemanticVersionRangeSet : IEquatable<SemanticVersionRangeSet> {
 
 	private readonly List<SemanticVersionRange> semanticVersionRanges;
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <returns>
-	/// <inheritdoc/>
-	/// </returns>
 	override public string ToString() {
 		string str = string.Empty;
 		foreach (SemanticVersionRange semanticVersionRange in semanticVersionRanges) {
@@ -44,12 +39,7 @@ public class SemanticVersionRangeSet : IEquatable<SemanticVersionRangeSet> {
 		return str[..^2];
 	}
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <returns>
-	/// <inheritdoc/>
-	/// </returns>
 	public override int GetHashCode() {
 		int sum = 0;
 		foreach (SemanticVersionRange semanticVersionRange in semanticVersionRanges)
@@ -71,11 +61,7 @@ public class SemanticVersionRangeSet : IEquatable<SemanticVersionRangeSet> {
 		return false;
 	}
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="other"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	public bool Equals(SemanticVersionRangeSet? other) {
 		if (other is null) {
 			return false;
@@ -94,26 +80,12 @@ public class SemanticVersionRangeSet : IEquatable<SemanticVersionRangeSet> {
 		return true;
 	}
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="obj"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	override public bool Equals(object? obj) => obj is SemanticVersionRangeSet semanticVersionRangeSet && Equals(semanticVersionRangeSet);
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="left"><inheritdoc/></param>
-	/// <param name="right"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	public static bool operator ==(SemanticVersionRangeSet left, SemanticVersionRangeSet right) => left is null ? right is null : left.Equals(right);
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="left"><inheritdoc/></param>
-	/// <param name="right"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	public static bool operator !=(SemanticVersionRangeSet left, SemanticVersionRangeSet right) => !(left == right);
 }

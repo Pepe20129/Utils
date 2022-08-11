@@ -86,30 +86,16 @@ public class SemanticVersion : IComparable<SemanticVersion>, IEquatable<Semantic
 	/// <returns>A deep copy of this <see cref="SemanticVersion"/></returns>
 	public SemanticVersion Clone() => new SemanticVersion(major, minor, patch, preRelease, buildMetadata);
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="other"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	public bool Equals(SemanticVersion? other) => other is not null && other.major == major && other.minor == minor && other.patch == patch && other.preRelease == preRelease;
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="obj"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	override public bool Equals(object? obj) => obj is SemanticVersion semanticVersion && Equals(semanticVersion);
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <returns><inheritdoc/></returns>
 	override public int GetHashCode() => ToString().GetHashCode();
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <returns><inheritdoc/></returns>
 	override public string ToString() {
 		string str = $"{major}.{minor}.{patch}";
 		if (preRelease != string.Empty)
@@ -119,11 +105,7 @@ public class SemanticVersion : IComparable<SemanticVersion>, IEquatable<Semantic
 		return str;
 	}
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="other"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	public int CompareTo(SemanticVersion? other) {
 		if (other is null)
 			return 1;
@@ -245,51 +227,21 @@ public class SemanticVersion : IComparable<SemanticVersion>, IEquatable<Semantic
 	/// <param name="semanticVersion">The <see cref="SemanticVersion"/> to cast</param>
 	public static implicit operator string(SemanticVersion semanticVersion) => semanticVersion.ToString();
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="left"><inheritdoc/></param>
-	/// <param name="right"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	public static bool operator ==(SemanticVersion? left, SemanticVersion? right) => left is null ? right is null : left.Equals(right);
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="left"><inheritdoc/></param>
-	/// <param name="right"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	public static bool operator !=(SemanticVersion? left, SemanticVersion? right) => !(left == right);
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="left"><inheritdoc/></param>
-	/// <param name="right"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	public static bool operator <(SemanticVersion? left, SemanticVersion? right) => left is null || left.CompareTo(right) == -1;
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="left"><inheritdoc/></param>
-	/// <param name="right"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	public static bool operator >(SemanticVersion? left, SemanticVersion? right) => left is not null && left.CompareTo(right) == 1;
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="left"><inheritdoc/></param>
-	/// <param name="right"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	public static bool operator <=(SemanticVersion? left, SemanticVersion? right) => left == right || left < right;
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="left"><inheritdoc/></param>
-	/// <param name="right"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	public static bool operator >=(SemanticVersion? left, SemanticVersion? right) => left == right || left > right;
 }

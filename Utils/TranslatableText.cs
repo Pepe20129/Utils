@@ -127,46 +127,22 @@ public class TranslatableText : IEquatable<TranslatableText> {
 	/// <returns>A deep copy of the object</returns>
 	public TranslatableText Clone() => new TranslatableText(key, assembly, args);
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="obj"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	override public bool Equals(object? obj) => (obj is TranslatableText || obj is string) && obj.ToString() == ToString();
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="other"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	public bool Equals(TranslatableText? other) => other is not null && other.ToString() == ToString();
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="left"><inheritdoc/></param>
-	/// <param name="right"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	public static bool operator ==(TranslatableText left, TranslatableText right) => left is null ? right is null : left.Equals(right);
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="left"><inheritdoc/></param>
-	/// <param name="right"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	public static bool operator !=(TranslatableText left, TranslatableText right) => !(left == right);
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <returns><inheritdoc/></returns>
 	override public int GetHashCode() => ToString().GetHashCode();
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <returns><inheritdoc/></returns>
 	override public string ToString() {
 		TranslatableTextSettings settings = settingsByAssembly[assembly];
 		//we get the lang data and set it as the first element

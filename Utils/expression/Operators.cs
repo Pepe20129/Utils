@@ -45,31 +45,16 @@ public abstract class UnaryOperator : Operator {
 /// Inverts a <see cref="BooleanValue"/>
 /// </summary>
 public class NegationOperator : UnaryOperator {
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="raw"><inheritdoc/></param>
-	/// <param name="expression"><inheritdoc/></param>
 	public NegationOperator(string raw, Expression expression) : base(raw, expression) {}
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="value"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	public override bool CanOperate(Value value) => value.value is bool;
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="value"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	public override Value Operate(Value value) => new BooleanValue(!(bool)value.value!);
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <returns><inheritdoc/></returns>
 	override public string ToString() => "!";
 }
 
@@ -77,31 +62,16 @@ public class NegationOperator : UnaryOperator {
 /// Inverts every bit of a <see cref="Value"/>
 /// </summary>
 public class BitwiseComplementOperator : UnaryOperator {
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="raw"><inheritdoc/></param>
-	/// <param name="expression"><inheritdoc/></param>
 	public BitwiseComplementOperator(string raw, Expression expression) : base(raw, expression) {}
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="value"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	public override bool CanOperate(Value value) => value.value is int || value.value is long;
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="value"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	public override Value Operate(Value value) => new IntegerValue(~(int)value.value!);
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <returns><inheritdoc/></returns>
 	override public string ToString() => "~";
 }
 
@@ -137,19 +107,10 @@ public abstract class DualOperator : Operator {
 /// A <see cref="DualOperator"/> that operates on <see cref="BooleanValue"/>s
 /// </summary>
 public abstract class BooleanOperator : DualOperator {
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="raw"><inheritdoc/></param>
-	/// <param name="expression"><inheritdoc/></param>
 	public BooleanOperator(string raw, Expression expression) : base(raw, expression) {}
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="left"><inheritdoc/></param>
-	/// <param name="right"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	public override bool CanOperate(Value left, Value right) => left.value is bool && right.value is bool;
 }
 
@@ -157,25 +118,13 @@ public abstract class BooleanOperator : DualOperator {
 /// Conditional ANDs two <see cref="BooleanValue"/>s
 /// </summary>
 public class AndOperator : BooleanOperator {
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="raw"><inheritdoc/></param>
-	/// <param name="expression"><inheritdoc/></param>
 	public AndOperator(string raw, Expression expression) : base(raw, expression) {}
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="left"><inheritdoc/></param>
-	/// <param name="right"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	override public Value Operate(Value left, Value right) => new BooleanValue((bool)left.value! && (bool)right.value!);
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <returns><inheritdoc/></returns>
 	override public string ToString() => "&&";
 }
 
@@ -183,25 +132,13 @@ public class AndOperator : BooleanOperator {
 /// Logical ANDs two <see cref="BooleanValue"/>s
 /// </summary>
 public class LogicalAndOperator : BooleanOperator {
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="raw"><inheritdoc/></param>
-	/// <param name="expression"><inheritdoc/></param>
 	public LogicalAndOperator(string raw, Expression expression) : base(raw, expression) {}
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="left"><inheritdoc/></param>
-	/// <param name="right"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	override public Value Operate(Value left, Value right) => new BooleanValue((bool)left.value! & (bool)right.value!);
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <returns><inheritdoc/></returns>
 	override public string ToString() => "&";
 }
 
@@ -209,25 +146,13 @@ public class LogicalAndOperator : BooleanOperator {
 /// Conditional ORs two <see cref="BooleanValue"/>s
 /// </summary>
 public class OrOperator : BooleanOperator {
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="raw"><inheritdoc/></param>
-	/// <param name="expression"><inheritdoc/></param>
 	public OrOperator(string raw, Expression expression) : base(raw, expression) {}
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="left"><inheritdoc/></param>
-	/// <param name="right"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	override public Value Operate(Value left, Value right) => new BooleanValue((bool)left.value! || (bool)right.value!);
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <returns><inheritdoc/></returns>
 	override public string ToString() => "||";
 }
 
@@ -235,25 +160,13 @@ public class OrOperator : BooleanOperator {
 /// Logical ORs two <see cref="BooleanValue"/>s
 /// </summary>
 public class LogicalOrOperator : BooleanOperator {
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="raw"><inheritdoc/></param>
-	/// <param name="expression"><inheritdoc/></param>
 	public LogicalOrOperator(string raw, Expression expression) : base(raw, expression) {}
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="left"><inheritdoc/></param>
-	/// <param name="right"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	override public Value Operate(Value left, Value right) => new BooleanValue((bool)left.value! | (bool)right.value!);
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <returns><inheritdoc/></returns>
 	override public string ToString() => "|";
 }
 
@@ -261,25 +174,13 @@ public class LogicalOrOperator : BooleanOperator {
 /// Logical XORs two <see cref="BooleanValue"/>s
 /// </summary>
 public class LogicalXOrOperator : BooleanOperator {
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="raw"><inheritdoc/></param>
-	/// <param name="expression"><inheritdoc/></param>
 	public LogicalXOrOperator(string raw, Expression expression) : base(raw, expression) {}
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="left"><inheritdoc/></param>
-	/// <param name="right"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	override public Value Operate(Value left, Value right) => new BooleanValue((bool)left.value ^ (bool)right.value);
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <returns><inheritdoc/></returns>
 	override public string ToString() => "^";
 }
 
@@ -287,19 +188,10 @@ public class LogicalXOrOperator : BooleanOperator {
 /// A <see cref="DualOperator"/> that operates on <see cref="IntegerValue"/>s, <see cref="LongValue"/>s &amp; <see cref="FloatValue"/>s
 /// </summary>
 public abstract class NumberOperator : DualOperator {
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="raw"><inheritdoc/></param>
-	/// <param name="expression"><inheritdoc/></param>
 	public NumberOperator(string raw, Expression expression) : base(raw, expression) {}
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="left"><inheritdoc/></param>
-	/// <param name="right"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	override public bool CanOperate(Value left, Value right) => (left.value is int || left.value is float || left.value is long) &&
 																(right.value is int || right.value is float || right.value is long);
 }
@@ -308,27 +200,13 @@ public abstract class NumberOperator : DualOperator {
 /// Adds two <see cref="IntegerValue"/>s, <see cref="LongValue"/>s or <see cref="FloatValue"/>s
 /// </summary>
 public class AdditionOperator : NumberOperator {
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="raw"><inheritdoc/></param>
-	/// <param name="expression"><inheritdoc/></param>
 	public AdditionOperator(string raw, Expression expression) : base(raw, expression) {}
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="left"><inheritdoc/></param>
-	/// <param name="right"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	public override bool CanOperate(Value left, Value right) => (left.value is string && right.value is string) || base.CanOperate(left, right);
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="left"><inheritdoc/></param>
-	/// <param name="right"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	public override Value Operate(Value left, Value right) {
 		if ((left.value is long && right.value is long) || (left.value is long && right.value is int) || (left.value is int && right.value is long)) {
 			return new LongValue(Convert.ToInt64(left.value) + Convert.ToInt64(right.value));
@@ -342,10 +220,7 @@ public class AdditionOperator : NumberOperator {
 		return new FloatValue(Convert.ToSingle(left.value) + Convert.ToSingle(right.value));
 	}
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <returns><inheritdoc/></returns>
 	override public string ToString() => "+";
 }
 
@@ -353,19 +228,10 @@ public class AdditionOperator : NumberOperator {
 /// Substracts two <see cref="IntegerValue"/>s, <see cref="LongValue"/>s or <see cref="FloatValue"/>s
 /// </summary>
 public class SubstractionOperator : NumberOperator {
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="raw"><inheritdoc/></param>
-	/// <param name="expression"><inheritdoc/></param>
 	public SubstractionOperator(string raw, Expression expression) : base(raw, expression) {}
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="left"><inheritdoc/></param>
-	/// <param name="right"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	public override Value Operate(Value left, Value right) {
 		if ((left.value is long && right.value is long) || (left.value is long && right.value is int) || (left.value is int && right.value is long)) {
 			return new LongValue(Convert.ToInt64(left.value) - Convert.ToInt64(right.value));
@@ -376,10 +242,7 @@ public class SubstractionOperator : NumberOperator {
 		return new FloatValue(Convert.ToSingle(left.value) - Convert.ToSingle(right.value));
 	}
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <returns><inheritdoc/></returns>
 	override public string ToString() => "-";
 }
 
@@ -387,19 +250,10 @@ public class SubstractionOperator : NumberOperator {
 /// Multiplies two <see cref="IntegerValue"/>s, <see cref="LongValue"/>s or <see cref="FloatValue"/>s
 /// </summary>
 public class MultiplicationOperator : NumberOperator {
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="raw"><inheritdoc/></param>
-	/// <param name="expression"><inheritdoc/></param>
 	public MultiplicationOperator(string raw, Expression expression) : base(raw, expression) {}
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="left"><inheritdoc/></param>
-	/// <param name="right"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	public override Value Operate(Value left, Value right) {
 		if ((left.value is long && right.value is long) || (left.value is long && right.value is int) || (left.value is int && right.value is long)) {
 			return new LongValue(Convert.ToInt64(left.value) * Convert.ToInt64(right.value));
@@ -410,10 +264,7 @@ public class MultiplicationOperator : NumberOperator {
 		return new FloatValue(Convert.ToSingle(left.value) * Convert.ToSingle(right.value));
 	}
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <returns><inheritdoc/></returns>
 	override public string ToString() => "*";
 }
 
@@ -421,19 +272,10 @@ public class MultiplicationOperator : NumberOperator {
 /// Divides two <see cref="IntegerValue"/>s, <see cref="LongValue"/>s or <see cref="FloatValue"/>s
 /// </summary>
 public class DivisionOperator : NumberOperator {
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="raw"><inheritdoc/></param>
-	/// <param name="expression"><inheritdoc/></param>
 	public DivisionOperator(string raw, Expression expression) : base(raw, expression) {}
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="left"><inheritdoc/></param>
-	/// <param name="right"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	public override Value Operate(Value left, Value right) {
 		if ((left.value is long && right.value is long) || (left.value is long && right.value is int) || (left.value is int && right.value is long)) {
 			return new LongValue(Convert.ToInt64(left.value) / Convert.ToInt64(right.value));
@@ -444,10 +286,7 @@ public class DivisionOperator : NumberOperator {
 		return new FloatValue(Convert.ToSingle(left.value) / Convert.ToSingle(right.value));
 	}
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <returns><inheritdoc/></returns>
 	override public string ToString() => "/";
 }
 
@@ -455,19 +294,10 @@ public class DivisionOperator : NumberOperator {
 /// Divides two <see cref="IntegerValue"/>s, <see cref="LongValue"/>s or <see cref="FloatValue"/>s and takes the remainder
 /// </summary>
 public class RemainderOperator : DualOperator {
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="raw"><inheritdoc/></param>
-	/// <param name="expression"><inheritdoc/></param>
 	public RemainderOperator(string raw, Expression expression) : base(raw, expression) {}
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="left"><inheritdoc/></param>
-	/// <param name="right"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	public override Value Operate(Value left, Value right) {
 		if (left.value is long || right.value is long) {
 			return new LongValue(Convert.ToInt64(left.value) % Convert.ToInt64(right.value));
@@ -475,18 +305,10 @@ public class RemainderOperator : DualOperator {
 		return new IntegerValue((int)left.value % (int)right.value);
 	}
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="left"><inheritdoc/></param>
-	/// <param name="right"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	override public bool CanOperate(Value left, Value right) => (left.value is int || left.value is int) && (right.value is int || right.value is int);
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <returns><inheritdoc/></returns>
 	override public string ToString() => "%";
 }
 
@@ -494,33 +316,16 @@ public class RemainderOperator : DualOperator {
 /// Checks if two <see cref="Value"/>s are equal
 /// </summary>
 public class EqualityOperator : DualOperator {
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="raw"><inheritdoc/></param>
-	/// <param name="expression"><inheritdoc/></param>
 	public EqualityOperator(string raw, Expression expression) : base(raw, expression) {}
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="left"><inheritdoc/></param>
-	/// <param name="right"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	public override bool CanOperate(Value left, Value right) => true;
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="left"><inheritdoc/></param>
-	/// <param name="right"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	public override Value Operate(Value left, Value right) => new BooleanValue(left.value.Equals(right.value));
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <returns><inheritdoc/></returns>
 	override public string ToString() => "==";
 }
 
@@ -528,33 +333,16 @@ public class EqualityOperator : DualOperator {
 /// Checks if two <see cref="Value"/>s are not equal
 /// </summary>
 public class InequalityOperator : DualOperator {
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="raw"><inheritdoc/></param>
-	/// <param name="expression"><inheritdoc/></param>
 	public InequalityOperator(string raw, Expression expression) : base(raw, expression) {}
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="left"><inheritdoc/></param>
-	/// <param name="right"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	public override bool CanOperate(Value left, Value right) => true;
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="left"><inheritdoc/></param>
-	/// <param name="right"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	public override Value Operate(Value left, Value right) => new BooleanValue(!left.value.Equals(right.value));
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <returns><inheritdoc/></returns>
 	override public string ToString() => "!=";
 }
 
@@ -562,19 +350,10 @@ public class InequalityOperator : DualOperator {
 /// Checks if a <see cref="Value"/> is greater than or equal to another <see cref="Value"/>
 /// </summary>
 public class GreaterThanOrEqualToOperator : NumberOperator {
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="raw"><inheritdoc/></param>
-	/// <param name="expression"><inheritdoc/></param>
 	public GreaterThanOrEqualToOperator(string raw, Expression expression) : base(raw, expression) {}
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="left"><inheritdoc/></param>
-	/// <param name="right"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	public override Value Operate(Value left, Value right) {
 		if (left.value is int leftInt && right.value is int rightInt) {
 			return new BooleanValue(leftInt >= rightInt);
@@ -582,10 +361,7 @@ public class GreaterThanOrEqualToOperator : NumberOperator {
 		return new BooleanValue(Convert.ToSingle(left.value) >= Convert.ToSingle(right.value));
 	}
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <returns><inheritdoc/></returns>
 	override public string ToString() => ">=";
 }
 
@@ -593,19 +369,10 @@ public class GreaterThanOrEqualToOperator : NumberOperator {
 /// Checks if a <see cref="Value"/> is lesser than or equal to another <see cref="Value"/>
 /// </summary>
 public class LesserThanOrEqualToOperator : NumberOperator {
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="raw"><inheritdoc/></param>
-	/// <param name="expression"><inheritdoc/></param>
 	public LesserThanOrEqualToOperator(string raw, Expression expression) : base(raw, expression) {}
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="left"><inheritdoc/></param>
-	/// <param name="right"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	public override Value Operate(Value left, Value right) {
 		if (left.value is int leftInt && right.value is int rightInt) {
 			return new BooleanValue(leftInt <= rightInt);
@@ -613,10 +380,7 @@ public class LesserThanOrEqualToOperator : NumberOperator {
 		return new BooleanValue(Convert.ToSingle(left.value) <= Convert.ToSingle(right.value));
 	}
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <returns><inheritdoc/></returns>
 	override public string ToString() => "<=";
 }
 
@@ -624,19 +388,10 @@ public class LesserThanOrEqualToOperator : NumberOperator {
 /// Checks if a <see cref="Value"/> is greater than another <see cref="Value"/>
 /// </summary>
 public class GreaterThanOperator : NumberOperator {
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="raw"><inheritdoc/></param>
-	/// <param name="expression"><inheritdoc/></param>
 	public GreaterThanOperator(string raw, Expression expression) : base(raw, expression) {}
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="left"><inheritdoc/></param>
-	/// <param name="right"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	public override Value Operate(Value left, Value right) {
 		if (left.value is int leftInt && right.value is int rightInt) {
 			return new BooleanValue(leftInt > rightInt);
@@ -644,10 +399,7 @@ public class GreaterThanOperator : NumberOperator {
 		return new BooleanValue(Convert.ToSingle(left.value) > Convert.ToSingle(right.value));
 	}
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <returns><inheritdoc/></returns>
 	override public string ToString() => ">";
 }
 
@@ -655,19 +407,10 @@ public class GreaterThanOperator : NumberOperator {
 /// Checks if a <see cref="Value"/> is lesser than another <see cref="Value"/>
 /// </summary>
 public class LesserThanOperator : NumberOperator {
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="raw"><inheritdoc/></param>
-	/// <param name="expression"><inheritdoc/></param>
 	public LesserThanOperator(string raw, Expression expression) : base(raw, expression) {}
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="left"><inheritdoc/></param>
-	/// <param name="right"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	public override Value Operate(Value left, Value right) {
 		if (left.value is int leftInt && right.value is int rightInt) {
 			return new BooleanValue(leftInt < rightInt);
@@ -675,10 +418,7 @@ public class LesserThanOperator : NumberOperator {
 		return new BooleanValue(Convert.ToSingle(left.value) < Convert.ToSingle(right.value));
 	}
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <returns><inheritdoc/></returns>
 	override public string ToString() => "<";
 }
 
@@ -686,33 +426,16 @@ public class LesserThanOperator : NumberOperator {
 /// Bitwise shifts the first <see cref="Value"/> to the left the amount of times dictated by the second <see cref="Value"/>
 /// </summary>
 public class LeftShiftOperator : DualOperator {
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="raw"><inheritdoc/></param>
-	/// <param name="expression"><inheritdoc/></param>
 	public LeftShiftOperator(string raw, Expression expression) : base(raw, expression) {}
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="left"><inheritdoc/></param>
-	/// <param name="right"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	public override Value Operate(Value left, Value right) => new IntegerValue((int)left.value << (int)right.value);
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="left"><inheritdoc/></param>
-	/// <param name="right"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	override public bool CanOperate(Value left, Value right) => left.value is int && right.value is int;
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <returns><inheritdoc/></returns>
 	override public string ToString() => "<<";
 }
 
@@ -720,33 +443,16 @@ public class LeftShiftOperator : DualOperator {
 /// Bitwise shifts the first <see cref="Value"/> to the right the amount of times dictated by the second <see cref="Value"/>
 /// </summary>
 public class RightShiftOperator : DualOperator {
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="raw"><inheritdoc/></param>
-	/// <param name="expression"><inheritdoc/></param>
 	public RightShiftOperator(string raw, Expression expression) : base(raw, expression) {}
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="left"><inheritdoc/></param>
-	/// <param name="right"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	public override Value Operate(Value left, Value right) => new IntegerValue((int)left.value >> (int)right.value);
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="left"><inheritdoc/></param>
-	/// <param name="right"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	override public bool CanOperate(Value left, Value right) => left.value is int && right.value is int;
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <returns><inheritdoc/></returns>
 	override public string ToString() => ">>";
 }
 
@@ -754,32 +460,15 @@ public class RightShiftOperator : DualOperator {
 /// Returns the first <see cref="Value"/>, unless it is <code>null</code>, when it returns the second <see cref="Value"/>
 /// </summary>
 public class NullCoalescingOperator : DualOperator {
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="raw"><inheritdoc/></param>
-	/// <param name="expression"><inheritdoc/></param>
 	public NullCoalescingOperator(string raw, Expression expression) : base(raw, expression) {}
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="left"><inheritdoc/></param>
-	/// <param name="right"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	public override bool CanOperate(Value left, Value right) => true;
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="left"><inheritdoc/></param>
-	/// <param name="right"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	public override Value Operate(Value left, Value right) => left.value is null ? right : left;
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <returns><inheritdoc/></returns>
 	override public string ToString() => "??";
 }

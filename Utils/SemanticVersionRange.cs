@@ -332,30 +332,16 @@ public class SemanticVersionRange : IEquatable<SemanticVersionRange> {
 		return true;
 	}
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="obj"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	override public bool Equals(object? obj) => obj is SemanticVersionRange semanticVersionRange && Equals(semanticVersionRange);
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="other"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	public bool Equals(SemanticVersionRange? other) => other is not null && other.min == min && other.minActive == minActive && other.max == max && other.maxActive == maxActive && other.includePrereleases == includePrereleases;
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <returns><inheritdoc/></returns>
 	override public int GetHashCode() => ToString().GetHashCode();
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <returns><inheritdoc/></returns>
 	override public string ToString() {
 		if (raw != null) {
 			return raw;
@@ -415,19 +401,9 @@ public class SemanticVersionRange : IEquatable<SemanticVersionRange> {
 	/// </summary>
 	public bool includePrereleases { get; set; }
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="left"><inheritdoc/></param>
-	/// <param name="right"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	public static bool operator ==(SemanticVersionRange left, SemanticVersionRange right) => left is null ? right is null : left.Equals(right);
 
-	/// <summary>
 	/// <inheritdoc/>
-	/// </summary>
-	/// <param name="left"><inheritdoc/></param>
-	/// <param name="right"><inheritdoc/></param>
-	/// <returns><inheritdoc/></returns>
 	public static bool operator !=(SemanticVersionRange left, SemanticVersionRange right) => !(left == right);
 }
