@@ -13,6 +13,7 @@ public class SemanticVersionRangeSet : IEquatable<SemanticVersionRangeSet> {
 	/// </summary>
 	/// <param name="raw">The <see cref="string"/> to parse into a <see cref="SemanticVersionRangeSet"/></param>
 	public SemanticVersionRangeSet(string raw) {
+		ArgumentNullException.ThrowIfNull(raw, nameof(raw));
 		semanticVersionRanges = new List<SemanticVersionRange>();
 		string[] ranges = raw.Split("||");
 		foreach (string range in ranges) {
@@ -25,6 +26,7 @@ public class SemanticVersionRangeSet : IEquatable<SemanticVersionRangeSet> {
 	/// </summary>
 	/// <param name="semanticVersionRanges">The <see cref="IEnumerable{SemanticVersionRange}"/> to parse into a <see cref="SemanticVersionRangeSet"/></param>
 	public SemanticVersionRangeSet(IEnumerable<SemanticVersionRange> semanticVersionRanges) {
+		ArgumentNullException.ThrowIfNull(semanticVersionRanges, nameof(semanticVersionRanges));
 		this.semanticVersionRanges = semanticVersionRanges.ToList();
 	}
 
@@ -53,6 +55,7 @@ public class SemanticVersionRangeSet : IEquatable<SemanticVersionRangeSet> {
 	/// <param name="semanticVersion">The <see cref="SemanticVersion"/> to check</param>
 	/// <returns>Whether or not <paramref name="semanticVersion"/> is included in this <see cref="SemanticVersionRangeSet"/></returns>
 	public bool Includes(SemanticVersion semanticVersion) {
+		ArgumentNullException.ThrowIfNull(semanticVersion, nameof(semanticVersion));
 		foreach (SemanticVersionRange semanticVersionRange in semanticVersionRanges) {
 			if (semanticVersionRange.Includes(semanticVersion)) {
 				return true;

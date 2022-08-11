@@ -28,6 +28,8 @@ public static class Utils {
 	/// <param name="stringConverter">A function that converts a <typeparamref name="T"/> into a <see cref="string"/>, defaults to <see cref="object.ToString"/></param>
 	[ExcludeFromCodeCoverage]
 	public static void PrintIEnumerable<T>(IEnumerable<T> enumerable, string format = "{0}", Func<T, string?>? stringConverter = null) {
+		ArgumentNullException.ThrowIfNull(enumerable, nameof(enumerable));
+		ArgumentNullException.ThrowIfNull(format, nameof(format));
 		stringConverter ??= [ExcludeFromCodeCoverage] (t) => t?.ToString();
 		foreach (T t in enumerable) {
 			if (t is null)
@@ -44,6 +46,8 @@ public static class Utils {
 	/// <param name="format">The string format to print with</param>
 	[ExcludeFromCodeCoverage]
 	public static void PrintITuple(ITuple tuple, string format = "{0}") {
+		ArgumentNullException.ThrowIfNull(tuple, nameof(tuple));
+		ArgumentNullException.ThrowIfNull(format, nameof(format));
 		PrintIEnumerable(tuple.GetType().GetProperties().Select([ExcludeFromCodeCoverage] (p) => p.GetValue(tuple)), format);
 	}
 
@@ -167,9 +171,8 @@ public static class Utils {
 	/// <param name="str">The string to check the display length</param>
 	/// <returns>The display length of <paramref name="str"/></returns>
 	public static int GetDisplayLength(string str) {
-		if (str is null)
-			throw new ArgumentNullException(nameof(str));
-		
+		ArgumentNullException.ThrowIfNull(str, nameof(str));
+
 		if (!str.Contains('§'))
 			return str.Length;
 		
@@ -210,8 +213,7 @@ public static class Utils {
 	/// <param name="args">The args to parse</param>
 	/// <returns>A dictionary with the args parsed</returns>
 	public static Dictionary<string, string> ArgsParser(string[] args) {
-		if (args is null)
-			throw new ArgumentNullException(nameof(args));
+		ArgumentNullException.ThrowIfNull(args, nameof(args));
 
 		Dictionary<string, string> dict = new Dictionary<string, string>();
 		if (args.Length == 0)
@@ -251,6 +253,7 @@ public static class Utils {
 	/// <param name="bits">The bits to convert to a byte</param>
 	/// <returns>A byte made of the bools</returns>
 	public static byte BitsToByte(bool[] bits) {
+		ArgumentNullException.ThrowIfNull(bits, nameof(bits));
 		return (byte)(
 			(bits[0] ? 1 : 0) * 128 +
 			(bits[1] ? 1 : 0) * 64 +
@@ -269,6 +272,7 @@ public static class Utils {
 	/// <param name="b">The byte to convert to a bool array</param>
 	/// <returns>A bool array made of the byte</returns>
 	public static bool[] ByteToBits(byte b) {
+		ArgumentNullException.ThrowIfNull(b, nameof(b));
 		bool[] result = new bool[8];
 		byte power;
 		for (int i = 0; i < 8; i += 1) {
@@ -289,6 +293,7 @@ public static class Utils {
 	/// A <see cref="byte"/> <see cref="Array"/> representing <paramref name="hex"/>
 	/// </returns>
 	public static byte[] HexStringToByteArray(string hex) {
+		ArgumentNullException.ThrowIfNull(hex, nameof(hex));
 		return Enumerable.Range(0, hex.Length)
 						 .Where(x => x % 2 == 0)
 						 .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
@@ -307,12 +312,12 @@ public static class Utils {
 	/// The data from <paramref name="plainText"/>, encrypted
 	/// </returns>
 	public static byte[] AesEncrypt(string plainText, byte[] key) {
-		if (plainText == null || plainText.Length <= 0)
-			throw new ArgumentNullException(nameof(plainText));
-		if (key == null)
-			throw new ArgumentNullException(nameof(key));
+		ArgumentNullException.ThrowIfNull(plainText, nameof(plainText));
+		ArgumentNullException.ThrowIfNull(key, nameof(key));
+		if (plainText.Length == 0)
+			throw new ArgumentException($"{nameof(plainText)} must not have a length of zero", nameof(plainText));
 		if (key.Length != 32)
-			throw new ArgumentException(nameof(key) + " has to have a length of 32");
+			throw new ArgumentException($"{nameof(key)} has to have a length of 32", nameof(key));
 		byte[] encrypted;
 
 		// Create an Aes object
@@ -349,12 +354,12 @@ public static class Utils {
 	/// The data from <paramref name="encryptedText"/>, decrypted
 	/// </returns>
 	public static string AesDecrypt(byte[] encryptedText, byte[] key) {
-		if (encryptedText == null || encryptedText.Length <= 0)
-			throw new ArgumentNullException(nameof(encryptedText));
-		if (key == null)
-			throw new ArgumentNullException(nameof(key));
+		ArgumentNullException.ThrowIfNull(encryptedText, nameof(encryptedText));
+		ArgumentNullException.ThrowIfNull(key, nameof(key));
+		if (encryptedText.Length == 0)
+			throw new ArgumentException($"{nameof(encryptedText)} must not have a length of zero", nameof(encryptedText));
 		if (key.Length != 32)
-			throw new ArgumentException(nameof(key) + " has to have a length of 32");
+			throw new ArgumentException($"{nameof(key)} has to have a length of 32", nameof(key));
 
 		// Declare the string used to hold
 		// the decrypted text.
@@ -391,6 +396,7 @@ public static class Utils {
 	/// <param name="inputString">The string to hash with <see cref="SHA256"/></param>
 	/// <returns>The <see cref="SHA256"/>'d hashed version of the <paramref name="inputString"/></returns>
 	public static string GetHashString(string inputString) {
+		ArgumentNullException.ThrowIfNull(inputString, nameof(inputString));
 		StringBuilder sb = new StringBuilder();
 		byte[] array;
 		using (HashAlgorithm algorithm = SHA256.Create()) {

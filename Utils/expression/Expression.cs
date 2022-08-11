@@ -15,6 +15,7 @@ public class Expression {
 	/// </summary>
 	/// <param name="raw">The string representation of the <see cref="Expression"/></param>
 	public Expression(string raw) {
+		ArgumentNullException.ThrowIfNull(raw, nameof(raw));
 		this.raw = raw;
 	}
 
@@ -25,6 +26,8 @@ public class Expression {
 	/// <param name="regexStrings">The regex strings</param>
 	/// <param name="operatorPrecedences">The operator precedences</param>
 	public Expression(string raw, Dictionary<Type, string> regexStrings, Dictionary<int, List<Type>> operatorPrecedences) : this(raw) {
+		ArgumentNullException.ThrowIfNull(regexStrings, nameof(regexStrings));
+		ArgumentNullException.ThrowIfNull(operatorPrecedences, nameof(operatorPrecedences));
 		this.regexStrings = regexStrings;
 		this.operatorPrecedences = operatorPrecedences;
 	}
@@ -84,6 +87,7 @@ public class Expression {
 	}
 
 	private Segment CreateSegment(string raw) {
+		ArgumentNullException.ThrowIfNull(raw, nameof(raw));
 		Segment? segment = null;
 		foreach (KeyValuePair<Type, string> pair in regexStrings) {
 			Match match = new Regex(pair.Value, RegexOptions.IgnoreCase).Match(raw);

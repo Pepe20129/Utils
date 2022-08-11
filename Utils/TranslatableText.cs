@@ -23,9 +23,10 @@ public class TranslatableText : IEquatable<TranslatableText> {
 	/// <param name="assembly">The <see cref="Assembly"/> to proxy</param>
 	/// <param name="args">The args that'll be passed into string.Format()</param>
 	public TranslatableText(string key, Assembly assembly, params object[] args) {
+		ArgumentNullException.ThrowIfNull(key, nameof(key));
+		ArgumentNullException.ThrowIfNull(assembly, nameof(assembly));
 		this.key = key;
 		this.args = args;
-		assembly ??= Assembly.GetCallingAssembly();
 		this.assembly = assembly;
 
 		//immediatly throw an error if it'd throw one upon use
@@ -99,6 +100,7 @@ public class TranslatableText : IEquatable<TranslatableText> {
 	/// true if it succeded setting the <see cref="TranslatableTextSettings"/>, false if it failed
 	/// </returns>
 	public static void SetSettings(TranslatableTextSettings translatableTextSettings) {
+		ArgumentNullException.ThrowIfNull(translatableTextSettings, nameof(translatableTextSettings));
 		Assembly assembly = Assembly.GetCallingAssembly();
 		if (settingsByAssembly.ContainsKey(assembly)) {
 			settingsByAssembly[assembly] = translatableTextSettings;

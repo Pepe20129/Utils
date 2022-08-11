@@ -31,6 +31,7 @@ public class SemanticVersion : IComparable<SemanticVersion>, IEquatable<Semantic
 	/// </summary>
 	/// <param name="raw">The <see cref="string"/> to parse into a <see cref="SemanticVersion"/></param>
 	public SemanticVersion(string raw) {
+		ArgumentNullException.ThrowIfNull(raw, nameof(raw));
 		Match match = REGEX.Match(raw);
 		if (match.Value != raw)
 			throw new InvalidSemanticVersionException($"Invalid SemanticVersion: \"{raw}\"");

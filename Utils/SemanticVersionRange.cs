@@ -37,6 +37,7 @@ public class SemanticVersionRange : IEquatable<SemanticVersionRange> {
 	/// <param name="raw">The <see cref="string"/> to parse into a <see cref="SemanticVersionRange"/></param>
 	/// <param name="includePrereleases"><inheritdoc cref="includePrereleases"/></param>
 	public SemanticVersionRange(string raw, bool includePrereleases) {
+		ArgumentNullException.ThrowIfNull(raw, nameof(raw));
 		this.raw = raw;
 		this.includePrereleases = includePrereleases;
 
@@ -252,6 +253,7 @@ public class SemanticVersionRange : IEquatable<SemanticVersionRange> {
 	}
 
 	private static string SemverStringFromPartialMatch(Match match) {
+		ArgumentNullException.ThrowIfNull(match, nameof(match));
 		string str = match.Groups["major"].Value + ".";
 
 		string minor = "0";
@@ -276,6 +278,7 @@ public class SemanticVersionRange : IEquatable<SemanticVersionRange> {
 	}
 
 	private static string SemverStringFromXMatch(Match match) {
+		ArgumentNullException.ThrowIfNull(match, nameof(match));
 		string str = match.Groups["major"].Value + ".";
 
 		string minor = "0";

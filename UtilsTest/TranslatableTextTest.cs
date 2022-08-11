@@ -33,7 +33,6 @@ public class TranslatableTextTest {
 		Assert.IsFalse(new TranslatableText("test").ToString() == new TranslatableText("test").ToStringAsAssembly(Assembly.GetAssembly(typeof(TranslatableText))));
 
 		Assert.IsTrue(new TranslatableText("test") == "success");
-		Assert.IsTrue(new TranslatableText("test", (Assembly)null) == "success");
 		Assert.IsTrue(new TranslatableText("test2.a") == "b");
 		Assert.IsTrue(new TranslatableText("test2.b") == "2");
 		Assert.IsTrue(new TranslatableText("test2.b") == "2");
@@ -85,6 +84,11 @@ public class TranslatableTextTest {
 
 		try {
 			_ = new TranslatableText(string.Empty);
+			Assert.Fail();
+		} catch {}
+
+		try {
+			_ = new TranslatableText("test", (Assembly)null);
 			Assert.Fail();
 		} catch {}
 
