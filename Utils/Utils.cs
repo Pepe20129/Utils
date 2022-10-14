@@ -232,19 +232,15 @@ public static class Utils {
 	}
 
 	/// <summary>
-	/// Takes an IList and shuffles it
+	/// Takes an <see cref="IEnumerable{T}"/> and shuffles it
 	/// </summary>
-	/// <typeparam name="T">The type of the elements on the IList</typeparam>
-	/// <param name="list">The IList to shuffle</param>
-	/// <param name="random">An instance of System.Random to use</param>
-	public static void Shuffle<T>(IList<T> list, Random? random = null) {
+	/// <typeparam name="T">The type of the elements on the <see cref="IEnumerable{T}"/></typeparam>
+	/// <param name="list">The <see cref="IEnumerable{T}"/> to shuffle</param>
+	/// <param name="random">An instance of <see cref="Random"/> to use</param>
+	public static IEnumerable<T> Shuffle<T>(IEnumerable<T> list, Random? random = null) {
 		ArgumentNullException.ThrowIfNull(list, nameof(list));
-
 		random ??= new Random();
-		for (int i = 1; i < list.Count; i += 1) {
-			int n = random.Next(i);
-			(list[n], list[i]) = (list[i], list[n]);
-		}
+		return list.OrderBy(t => random.Next());
 	}
 
 	/// <summary>
