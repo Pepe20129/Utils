@@ -76,10 +76,10 @@ public class SemanticVersion : IComparable<SemanticVersion>, IEquatable<Semantic
 	public string buildMetadata { get; set; }
 
 	/// <summary>
-	/// Creates an instance of <see cref="ReadOnlySemanticVersion"/> with the data of this instance and returns it
+	/// Creates an instance of <see cref="ImmutableSemanticVersion"/> with the data of this instance and returns it
 	/// </summary>
-	/// <returns>A new <see cref="ReadOnlySemanticVersion"/> that has the same data as this instance</returns>
-	public ReadOnlySemanticVersion ToReadOnly() => new ReadOnlySemanticVersion(major, minor, patch, preRelease, buildMetadata);
+	/// <returns>A new <see cref="ImmutableSemanticVersion"/> that has the same data as this instance</returns>
+	public ImmutableSemanticVersion ToImmutable() => new ImmutableSemanticVersion(major, minor, patch, preRelease, buildMetadata);
 
 	/// <summary>
 	/// Creates a deep copy of this <see cref="SemanticVersion"/>

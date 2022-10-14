@@ -246,11 +246,11 @@ public class SemanticVersionTest {
 		for (int i = 0; i < valid.GetLength(0); i += 1) {
 			Assert.IsTrue(new SemanticVersion(valid[i, 0].ToString()) == new SemanticVersion(BigInteger.Parse(valid[i, 1].ToString()), BigInteger.Parse(valid[i, 2].ToString()), BigInteger.Parse(valid[i, 3].ToString()), valid[i, 4].ToString(), valid[i, 5].ToString()));
 			Assert.IsTrue(new SemanticVersion(valid[i, 0].ToString()).GetHashCode() == new SemanticVersion(BigInteger.Parse(valid[i, 1].ToString()), BigInteger.Parse(valid[i, 2].ToString()), BigInteger.Parse(valid[i, 3].ToString()), valid[i, 4].ToString(), valid[i, 5].ToString()).GetHashCode());
-			Assert.IsTrue(new SemanticVersion(valid[i, 0].ToString()).major == new SemanticVersion(valid[i, 0].ToString()).ToReadOnly().major);
-			Assert.IsTrue(new SemanticVersion(valid[i, 0].ToString()).minor == new SemanticVersion(valid[i, 0].ToString()).ToReadOnly().minor);
-			Assert.IsTrue(new SemanticVersion(valid[i, 0].ToString()).patch == new SemanticVersion(valid[i, 0].ToString()).ToReadOnly().patch);
-			Assert.IsTrue(new SemanticVersion(valid[i, 0].ToString()).preRelease == new SemanticVersion(valid[i, 0].ToString()).ToReadOnly().preRelease);
-			Assert.IsTrue(new SemanticVersion(valid[i, 0].ToString()).buildMetadata == new SemanticVersion(valid[i, 0].ToString()).ToReadOnly().buildMetadata);
+			Assert.IsTrue(new SemanticVersion(valid[i, 0].ToString()).major == new SemanticVersion(valid[i, 0].ToString()).ToImmutable().major);
+			Assert.IsTrue(new SemanticVersion(valid[i, 0].ToString()).minor == new SemanticVersion(valid[i, 0].ToString()).ToImmutable().minor);
+			Assert.IsTrue(new SemanticVersion(valid[i, 0].ToString()).patch == new SemanticVersion(valid[i, 0].ToString()).ToImmutable().patch);
+			Assert.IsTrue(new SemanticVersion(valid[i, 0].ToString()).preRelease == new SemanticVersion(valid[i, 0].ToString()).ToImmutable().preRelease);
+			Assert.IsTrue(new SemanticVersion(valid[i, 0].ToString()).buildMetadata == new SemanticVersion(valid[i, 0].ToString()).ToImmutable().buildMetadata);
 		}
 
 		string[] invalid = new string[] {
@@ -338,12 +338,12 @@ public class SemanticVersionTest {
 	[TestMethod]
 	public void AsReadOnly() {
 		SemanticVersion sv;
-		ReadOnlySemanticVersion rosv;
+		ImmutableSemanticVersion immutable;
 		for (int i = 0; i < versions.GetLength(0); i += 1) {
 			for (int j = 0; j < versions.GetLength(1); j += 1) {
 				sv = new SemanticVersion(versions[i, j]);
-				rosv = new ReadOnlySemanticVersion(versions[i, j]);
-				Assert.IsTrue(sv.ToReadOnly() == rosv);
+				immutable = new ImmutableSemanticVersion(versions[i, j]);
+				Assert.IsTrue(sv.ToImmutable() == immutable);
 			}
 		}
 	}
@@ -353,12 +353,12 @@ public class SemanticVersionTest {
 		string str = "{\"semanticVersion\":\"1.2.3-4\\u002B5\",\"readOnlySemanticVersion\":\"5.4.3-2\\u002B1\"}";
 		JsonConverterTest test = JsonSerializer.Deserialize<JsonConverterTest>(str, jsonSerializerOptions);
 		Assert.IsTrue(test.semanticVersion == new SemanticVersion("1.2.3-4+5"), $"{test.semanticVersion}, {new SemanticVersion("1.2.3-4+5")}");
-		Assert.IsTrue(test.readOnlySemanticVersion == new ReadOnlySemanticVersion("5.4.3-2+1"), $"{test.readOnlySemanticVersion}, {new ReadOnlySemanticVersion("5.4.3-2+1")}");
+		Assert.IsTrue(test.readOnlySemanticVersion == new ImmutableSemanticVersion("5.4.3-2+1"), $"{test.readOnlySemanticVersion}, {new ImmutableSemanticVersion("5.4.3-2+1")}");
 		Assert.IsTrue(JsonSerializer.Serialize(test, jsonSerializerOptions) == str, $"{JsonSerializer.Serialize(test, jsonSerializerOptions)}");
 	}
 
 	public class JsonConverterTest {
 		public SemanticVersion semanticVersion { get; set; }
-		public ReadOnlySemanticVersion readOnlySemanticVersion { get; set; }
+		public ImmutableSemanticVersion readOnlySemanticVersion { get; set; }
 	}
 }

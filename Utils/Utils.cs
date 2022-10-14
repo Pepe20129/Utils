@@ -158,12 +158,12 @@ public static class Utils {
 	#endregion
 
 	/// <summary>
-	/// Gets a <see cref="ReadOnlySemanticVersion"/> representing the current version of this library
+	/// Gets an <see cref="ImmutableSemanticVersion"/> representing the current version of this library
 	/// </summary>
 	/// <returns>
-	/// A <see cref="ReadOnlySemanticVersion"/> representing the current version of this library
+	/// An <see cref="ImmutableSemanticVersion"/> representing the current version of this library
 	/// </returns>
-	public static ReadOnlySemanticVersion GetUtilsVersion() => new ReadOnlySemanticVersion("0.1.2");
+	public static ImmutableSemanticVersion GetUtilsVersion() => new ImmutableSemanticVersion("0.1.2");
 	
 	/// <summary>
 	/// Gets the display length that a string would have if used in <see cref="PrintColoredText(object)"/>

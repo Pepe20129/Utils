@@ -3,14 +3,14 @@
 namespace Utils;
 
 /// <summary>
-/// A readonly version of <see cref="SemanticVersion"/>
+/// An immutable version of <see cref="SemanticVersion"/>
 /// </summary>
-public class ReadOnlySemanticVersion : SemanticVersion {
+public class ImmutableSemanticVersion : SemanticVersion {
 	/// <inheritdoc cref="SemanticVersion(BigInteger, BigInteger, BigInteger, string, string)"/>
-	public ReadOnlySemanticVersion(BigInteger major, BigInteger minor, BigInteger patch, string? preRelease = null, string? buildMetadata = null) : base(major, minor, patch, preRelease, buildMetadata) {}
+	public ImmutableSemanticVersion(BigInteger major, BigInteger minor, BigInteger patch, string? preRelease = null, string? buildMetadata = null) : base(major, minor, patch, preRelease, buildMetadata) {}
 
 	/// <inheritdoc cref="SemanticVersion(string)"/>
-	public ReadOnlySemanticVersion(string raw) : base(raw) {}
+	public ImmutableSemanticVersion(string raw) : base(raw) {}
 
 	/// <inheritdoc cref="SemanticVersion.major"/>
 	public new BigInteger major {
