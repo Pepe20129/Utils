@@ -6,14 +6,14 @@ using System.Text.Json;
 namespace Utils;
 
 /// <summary>
-/// A class that takes a key and returns a string based on the static data
+/// A class that takes a key and returns a <see cref="string"/> based on the data
 /// </summary>
 public class TranslatableText : IEquatable<TranslatableText> {
 	/// <summary>
 	/// Creates a new <see cref="TranslatableText"/> based on a translation key
 	/// </summary>
 	/// <param name="key">The translation key</param>
-	/// <param name="args">The args that'll be passed into string.Format()</param>
+	/// <param name="args">The args that'll be passed into <see cref="string.Format(string, object[])"/></param>
 	public TranslatableText(string key, params object[] args) : this(key, Assembly.GetCallingAssembly(), args) {}
 
 	/// <summary>
@@ -21,7 +21,7 @@ public class TranslatableText : IEquatable<TranslatableText> {
 	/// </summary>
 	/// <param name="key">The translation key</param>
 	/// <param name="assembly">The <see cref="Assembly"/> to proxy</param>
-	/// <param name="args">The args that'll be passed into string.Format()</param>
+	/// <param name="args">The args that'll be passed into <see cref="string.Format(string, object[])"/></param>
 	public TranslatableText(string key, Assembly assembly, params object[] args) {
 		ArgumentNullException.ThrowIfNull(key, nameof(key));
 		ArgumentNullException.ThrowIfNull(assembly, nameof(assembly));
@@ -124,9 +124,9 @@ public class TranslatableText : IEquatable<TranslatableText> {
 	public static implicit operator string(TranslatableText t) => t.ToString();
 
 	/// <summary>
-	/// Creates a deep copy of the object
+	/// Creates a deep copy of this <see cref="TranslatableText"/>
 	/// </summary>
-	/// <returns>A deep copy of the object</returns>
+	/// <returns>A deep copy of this <see cref="TranslatableText"/></returns>
 	public TranslatableText Clone() => new TranslatableText(key, assembly, args);
 
 	/// <inheritdoc/>

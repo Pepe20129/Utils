@@ -21,10 +21,11 @@ public static class Utils {
 	 */
 
 	/// <summary>
-	/// Takes an IEnumerable and prints every entry in it separetly
+	/// Takes an <see cref="IEnumerable{T}"/> and prints every entry in it separetly
 	/// </summary>
-	/// <param name="enumerable">The IList to print</param>
-	/// <param name="format">The string format to print with, defaults to "{0}"</param>
+	/// <typeparam name="T">The <see cref="Type"/> of the items in the <see cref="IEnumerable{T}"/></typeparam>
+	/// <param name="enumerable">The <see cref="IEnumerable{T}"/> to print</param>
+	/// <param name="format">The <see cref="string"/> format to print with</param>
 	/// <param name="stringConverter">A function that converts a <typeparamref name="T"/> into a <see cref="string"/>, defaults to <see cref="object.ToString"/></param>
 	[ExcludeFromCodeCoverage]
 	public static void PrintIEnumerable<T>(IEnumerable<T> enumerable, string format = "{0}", Func<T, string?>? stringConverter = null) {
@@ -40,10 +41,10 @@ public static class Utils {
 	}
 
 	/// <summary>
-	/// Takes an ITuple and prints every entry in it separetly
+	/// Takes an <see cref="ITuple"/> and prints every entry in it separetly
 	/// </summary>
-	/// <param name="tuple">The ITuple to print</param>
-	/// <param name="format">The string format to print with</param>
+	/// <param name="tuple">The <see cref="ITuple"/> to print</param>
+	/// <param name="format">The <see cref="string"/> format to print with</param>
 	[ExcludeFromCodeCoverage]
 	public static void PrintITuple(ITuple tuple, string format = "{0}") {
 		ArgumentNullException.ThrowIfNull(tuple, nameof(tuple));
@@ -52,25 +53,25 @@ public static class Utils {
 	}
 
 	/// <summary>
-	/// The default color for the foreground. Used in PrintColoredText
+	/// The default color for the foreground. Used in <see cref="PrintColoredText(object)"/>
 	/// </summary>
 	[ExcludeFromCodeCoverage]
 	public static ConsoleColor printColoredTextForegroundDefault { get; set; } = ConsoleColor.Gray;
 
 	/// <summary>
-	/// The default color for the background. Used in PrintColoredText
+	/// The default color for the background. Used in <see cref="PrintColoredText(object)"/>
 	/// </summary>
 	[ExcludeFromCodeCoverage]
 	public static ConsoleColor printColoredTextBackgroundDefault { get; set; } = ConsoleColor.Black;
 
 	/// <summary>
-	/// Prints the object's ToString() inputted with colors signaled by '§'
+	/// Prints the <see cref="object"/>'s <see cref="object.ToString"/> inputted with colors signaled by '§'
 	/// <br/><br/>
 	/// [0-f] sets foreground color, [g-w] (excluding r) sets background color
 	/// <br/>
 	/// 'x' resets foreground color, 'y' resets background color, and 'r' resets both
 	/// </summary>
-	/// <param name="raw">The object to print with colors</param>
+	/// <param name="raw">The <see cref="object"/> to print with colors</param>
 	[ExcludeFromCodeCoverage]
 	public static void PrintColoredText(object raw) {
 		ArgumentNullException.ThrowIfNull(raw, nameof(raw));
@@ -164,11 +165,11 @@ public static class Utils {
 	/// An <see cref="ImmutableSemanticVersion"/> representing the current version of this library
 	/// </returns>
 	public static ImmutableSemanticVersion GetUtilsVersion() => new ImmutableSemanticVersion("0.1.2");
-	
+
 	/// <summary>
-	/// Gets the display length that a string would have if used in <see cref="PrintColoredText(object)"/>
+	/// Gets the display length that a <see cref="string"/> would have if used in <see cref="PrintColoredText(object)"/>
 	/// </summary>
-	/// <param name="str">The string to check the display length</param>
+	/// <param name="str">The <see cref="string"/> to check the display length</param>
 	/// <returns>The display length of <paramref name="str"/></returns>
 	public static int GetDisplayLength(string str) {
 		ArgumentNullException.ThrowIfNull(str, nameof(str));
@@ -208,10 +209,10 @@ public static class Utils {
 	}
 
 	/// <summary>
-	/// Parses a string array of arguments into a dictionary containing those arguments
+	/// Parses a <see cref="string"/> <see cref="Array"/> of arguments into a <see cref="Dictionary{TKey, TValue}"/> containing those arguments
 	/// </summary>
-	/// <param name="args">The args to parse</param>
-	/// <returns>A dictionary with the args parsed</returns>
+	/// <param name="args">The argumets to parse</param>
+	/// <returns>A <see cref="Dictionary{TKey, TValue}"/> with the argumets parsed</returns>
 	public static Dictionary<string, string> ArgsParser(string[] args) {
 		ArgumentNullException.ThrowIfNull(args, nameof(args));
 
@@ -244,10 +245,10 @@ public static class Utils {
 	}
 
 	/// <summary>
-	/// Converts the first 8 bools in a bool array to a byte
+	/// Converts the first 8 <see cref="bool"/>s in a <see cref="bool"/> <see cref="Array"/> to a <see cref="byte"/>
 	/// </summary>
-	/// <param name="bits">The bits to convert to a byte</param>
-	/// <returns>A byte made of the bools</returns>
+	/// <param name="bits">The bits to convert to a <see cref="byte"/></param>
+	/// <returns>A <see cref="byte"/> made of the <see cref="bool"/>s</returns>
 	public static byte BitsToByte(bool[] bits) {
 		ArgumentNullException.ThrowIfNull(bits, nameof(bits));
 		return (byte)(
@@ -263,10 +264,10 @@ public static class Utils {
 	}
 
 	/// <summary>
-	/// Converts a byte in a 8-length bool array
+	/// Converts a <see cref="byte"/> in a 8-length <see cref="bool"/> <see cref="Array"/>
 	/// </summary>
-	/// <param name="b">The byte to convert to a bool array</param>
-	/// <returns>A bool array made of the byte</returns>
+	/// <param name="b">The <see cref="byte"/> to convert to a <see cref="bool"/> <see cref="Array"/></param>
+	/// <returns>A <see cref="bool"/> <see cref="Array"/> made of the <see cref="byte"/></returns>
 	public static bool[] ByteToBits(byte b) {
 		ArgumentNullException.ThrowIfNull(b, nameof(b));
 		bool[] result = new bool[8];
@@ -282,9 +283,9 @@ public static class Utils {
 	}
 
 	/// <summary>
-	/// Converts a hex string to a <see cref="byte"/> <see cref="Array"/>
+	/// Converts a hex <see cref="string"/> to a <see cref="byte"/> <see cref="Array"/>
 	/// </summary>
-	/// <param name="hex">The hex string to convert</param>
+	/// <param name="hex">The hex <see cref="string"/> to convert</param>
 	/// <returns>
 	/// A <see cref="byte"/> <see cref="Array"/> representing <paramref name="hex"/>
 	/// </returns>
@@ -300,7 +301,7 @@ public static class Utils {
 	private static readonly byte[] iv = new byte[16] { 30, 188, 169, 243, 90, 122, 131, 243, 83, 72, 206, 153, 144, 119, 198, 91 };
 
 	/// <summary>
-	/// Encrypts a string of text with the AES cryptographic algorithm
+	/// Encrypts a <see cref="string"/> of text with the AES cryptographic algorithm
 	/// </summary>
 	/// <param name="plainText">The text to encrypt</param>
 	/// <param name="key">The key to use for the encryption</param>
@@ -389,7 +390,7 @@ public static class Utils {
 	/// <summary>
 	/// Hashes the <paramref name="inputString"/> with <see cref="SHA256"/>
 	/// </summary>
-	/// <param name="inputString">The string to hash with <see cref="SHA256"/></param>
+	/// <param name="inputString">The <see cref="string"/> to hash with <see cref="SHA256"/></param>
 	/// <returns>The <see cref="SHA256"/>'d hashed version of the <paramref name="inputString"/></returns>
 	public static string GetHashString(string inputString) {
 		ArgumentNullException.ThrowIfNull(inputString, nameof(inputString));

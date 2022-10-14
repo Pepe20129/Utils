@@ -368,9 +368,9 @@ public class SemanticVersionRange : IEquatable<SemanticVersionRange> {
 	}
 
 	/// <summary>
-	/// Creates a deep copy of the object
+	/// Creates a deep copy of this <see cref="SemanticVersionRange"/>
 	/// </summary>
-	/// <returns>A deep copy of the object</returns>
+	/// <returns>A deep copy of this <see cref="SemanticVersionRange"/></returns>
 	public SemanticVersionRange Clone() => new SemanticVersionRange(min, minActive, max, maxActive, includePrereleases);
 	
 	private static readonly Regex PARTIAL_REGEX = new Regex(@"^(?<major>0|[1-9]\d*)(?:\.(?<minor>0|[1-9]\d*)(?:\.(?<patch>0|[1-9]\d*)(?:-(?<prerelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+(?<buildmetadata>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)?)?$");
@@ -400,7 +400,7 @@ public class SemanticVersionRange : IEquatable<SemanticVersionRange> {
 	public bool maxActive { get; set; }
 
 	/// <summary>
-	/// Whether pre-releases of a different [major, minor, patch] tuple should be included in the range or not (not yet completly implemented)
+	/// Whether pre-releases of a different [major, minor, patch] tuple should be included in the range or not
 	/// </summary>
 	public bool includePrereleases { get; set; }
 

@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 namespace Utils;
 
 /// <summary>
-/// Supports converting any type with a string constructor by using a factory pattern
+/// Supports converting any <see cref="Type"/> with a <see cref="string"/> constructor by using a factory pattern
 /// </summary>
 public class StringConstructorJsonCoverterFactory : JsonConverterFactory {
 	/// <inheritdoc/>
@@ -22,9 +22,9 @@ public class StringConstructorJsonCoverterFactory : JsonConverterFactory {
 }
 
 /// <summary>
-/// A <see cref="JsonConverter"/> that coverts <see cref="object"/>s that have a constructor that takes only a string
+/// A <see cref="JsonConverter"/> that coverts <see cref="object"/>s that have a constructor that takes only a <see cref="string"/>
 /// </summary>
-/// <typeparam name="T"></typeparam>
+/// <typeparam name="T">The <see cref="Type"/> of the <see cref="object"/></typeparam>
 public class StringConstructorJsonCoverter<T> : JsonConverter<T> {
 	/// <inheritdoc/>
 	public override bool CanConvert(Type typeToConvert) {

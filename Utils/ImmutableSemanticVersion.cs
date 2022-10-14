@@ -3,7 +3,7 @@
 namespace Utils;
 
 /// <summary>
-/// An immutable version of <see cref="SemanticVersion"/>
+/// An immutable variant of <see cref="SemanticVersion"/>
 /// </summary>
 public class ImmutableSemanticVersion : SemanticVersion {
 	/// <inheritdoc cref="SemanticVersion(BigInteger, BigInteger, BigInteger, string, string)"/>
