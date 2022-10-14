@@ -39,17 +39,6 @@ public class UtilsTest {
 		Shuffle<int>(list1, new Random(r2));
 		Shuffle<int>(list2, new Random(r2));
 		Assert.IsTrue(Enumerable.SequenceEqual(list1, list2));
-
-		//checks that it can't be shuffled back into itself
-		for (int i = 0; i < 1000; i += 1) {
-			List<int> small1 = new List<int> {1, 2};
-			Shuffle<int>(small1);
-			Assert.IsFalse(Enumerable.SequenceEqual(small1, new List<int> {1, 2}));
-
-			List<int> small2 = new List<int> {1, 2, 3};
-			Shuffle<int>(small2);
-			Assert.IsFalse(Enumerable.SequenceEqual(small2, new List<int> {1, 2, 3}));
-		}
 	}
 
 	[TestMethod]
