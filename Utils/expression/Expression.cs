@@ -25,11 +25,11 @@ public class Expression {
 	/// <param name="raw">The string representation of the <see cref="Expression"/></param>
 	/// <param name="regexStrings">The regex strings</param>
 	/// <param name="operatorPrecedences">The operator precedences</param>
-	public Expression(string raw, Dictionary<Type, string> regexStrings, Dictionary<int, List<Type>> operatorPrecedences) : this(raw) {
+	public Expression(string raw, IDictionary<Type, string> regexStrings, IDictionary<int, List<Type>> operatorPrecedences) : this(raw) {
 		ArgumentNullException.ThrowIfNull(regexStrings, nameof(regexStrings));
 		ArgumentNullException.ThrowIfNull(operatorPrecedences, nameof(operatorPrecedences));
-		this.regexStrings = regexStrings;
-		this.operatorPrecedences = operatorPrecedences;
+		this.regexStrings = (Dictionary<Type, string>)regexStrings;
+		this.operatorPrecedences = (Dictionary<int, List<Type>>)operatorPrecedences;
 	}
 
 	/// <summary>
