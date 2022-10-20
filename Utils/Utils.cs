@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
@@ -297,25 +298,28 @@ public static class Utils {
 						 .ToArray();
 	}
 
-	//this is hardcoded, doesn't really matter, it's practically just another key
-	private static readonly byte[] iv = new byte[16] { 30, 188, 169, 243, 90, 122, 131, 243, 83, 72, 206, 153, 144, 119, 198, 91 };
+	/// <summary>
+	/// The dafault initalization vector for AES encryption/decryption
+	/// </summary>
+	public static readonly ImmutableArray<byte> iv = new byte[16] { 30, 188, 169, 243, 90, 122, 131, 243, 83, 72, 206, 153, 144, 119, 198, 91 }.ToImmutableArray();
 
 	/// <summary>
-	/// Encrypts a <see cref="string"/> of text with the AES cryptographic algorithm
+	/// Encrypts a <see cref="byte"/> <see cref="Array"/> of text with the AES cryptographic algorithm
 	/// </summary>
-	/// <param name="plainText">The text to encrypt</param>
+	/// <param name="data">The data to encrypt</param>
 	/// <param name="key">The key to use for the encryption</param>
+	/// <param name="iv">The iv to use for the decription; if not specified, <see cref="iv"/> is used</param>
 	/// <returns>
-	/// The data from <paramref name="plainText"/>, encrypted
+	/// The data from <paramref name="data"/>, encrypted
 	/// </returns>
-	public static byte[] AesEncrypt(string plainText, byte[] key) {
-		ArgumentNullException.ThrowIfNull(plainText, nameof(plainText));
+	public static byte[] AesEncrypt(byte[] data, byte[] key, byte[]? iv = null) {
+		iv ??= Utils.iv.ToArray();
+		ArgumentNullException.ThrowIfNull(data, nameof(data));
 		ArgumentNullException.ThrowIfNull(key, nameof(key));
-		if (plainText.Length == 0)
-			throw new ArgumentException($"{nameof(plainText)} must not have a length of zero", nameof(plainText));
+		if (data.Length == 0)
+			throw new ArgumentException($"{nameof(data)} must not have a length of zero", nameof(data));
 		if (key.Length != 32)
 			throw new ArgumentException($"{nameof(key)} has to have a length of 32", nameof(key));
-		byte[] encrypted;
 
 		// Create an Aes object
 		// with the specified key and IV.
@@ -329,38 +333,32 @@ public static class Utils {
 			// Create the streams used for encryption.
 			using (MemoryStream msEncrypt = new MemoryStream()) {
 				using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write)) {
-					using (StreamWriter swEncrypt = new StreamWriter(csEncrypt)) {
-						//Write all data to the stream.
-						swEncrypt.Write(plainText);
-					}
-					encrypted = msEncrypt.ToArray();
+					csEncrypt.Write(data, 0, data.Length);
+					csEncrypt.FlushFinalBlock();
+
+					return msEncrypt.ToArray();
 				}
 			}
 		}
-
-		// Return the encrypted bytes from the memory stream.
-		return encrypted;
 	}
 
 	/// <summary>
 	/// Decrypts a <see cref="byte"/> <see cref="Array"/> with the AES cryptographic algorithm
 	/// </summary>
-	/// <param name="encryptedText">The data to decrypt</param>
+	/// <param name="data">The data to decrypt</param>
 	/// <param name="key">The key to use for the decryption</param>
+	/// <param name="iv">The iv to use for the decription; if not specified, <see cref="iv"/> is used</param>
 	/// <returns>
-	/// The data from <paramref name="encryptedText"/>, decrypted
+	/// The data from <paramref name="data"/>, decrypted
 	/// </returns>
-	public static string AesDecrypt(byte[] encryptedText, byte[] key) {
-		ArgumentNullException.ThrowIfNull(encryptedText, nameof(encryptedText));
+	public static byte[] AesDecrypt(byte[] data, byte[] key, byte[]? iv = null) {
+		iv ??= Utils.iv.ToArray();
+		ArgumentNullException.ThrowIfNull(data, nameof(data));
 		ArgumentNullException.ThrowIfNull(key, nameof(key));
-		if (encryptedText.Length == 0)
-			throw new ArgumentException($"{nameof(encryptedText)} must not have a length of zero", nameof(encryptedText));
+		if (data.Length == 0)
+			throw new ArgumentException($"{nameof(data)} must not have a length of zero", nameof(data));
 		if (key.Length != 32)
 			throw new ArgumentException($"{nameof(key)} has to have a length of 32", nameof(key));
-
-		// Declare the string used to hold
-		// the decrypted text.
-		string plaintext;
 
 		// Create an Aes object
 		// with the specified key and IV.
@@ -372,19 +370,15 @@ public static class Utils {
 			ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
 
 			// Create the streams used for decryption.
-			using (MemoryStream msDecrypt = new MemoryStream(encryptedText)) {
-				using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read)) {
-					using (StreamReader srDecrypt = new StreamReader(csDecrypt)) {
+			using (MemoryStream msDecrypt = new MemoryStream()) {
+				using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Write)) {
+					csDecrypt.Write(data, 0, data.Length);
+					csDecrypt.FlushFinalBlock();
 
-						// Read the decrypted bytes from the decrypting stream
-						// and place them in a string.
-						plaintext = srDecrypt.ReadToEnd();
-					}
+					return msDecrypt.ToArray();
 				}
 			}
 		}
-
-		return plaintext;
 	}
 
 	/// <summary>
