@@ -25,7 +25,7 @@ public class SemanticVersionTest {
 	};
 	readonly JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions {
 		Converters = {
-			new StringConstructorJsonCoverterFactory()
+			new IParsableJsonCoverterFactory()
 		}
 	};
 

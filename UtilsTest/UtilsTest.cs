@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Text;
 using static Utils.Utils;
 
 namespace UtilsTest;
@@ -88,7 +89,7 @@ public class UtilsTest {
 
 	[TestMethod]
 	public void Cryptography() {
-		string message = "This is a cryptography test where this message gets encrypted with a random key and then decrypted with that same key.";
+		byte[] message = Encoding.UTF8.GetBytes("This is a cryptography test where this message gets encrypted with a random key and then decrypted with that same key.");
 
 		//generate a random key
 		string keyString = string.Empty;
@@ -99,8 +100,8 @@ public class UtilsTest {
 
 		byte[] key = HexStringToByteArray(keyString);
 		byte[] encryptedData = AesEncrypt(message, key);
-		string decryptedData = AesDecrypt(encryptedData, key);
-		Assert.IsTrue(message == decryptedData);
+		byte[] decryptedData = AesDecrypt(encryptedData, key);
+		Assert.IsTrue(message.SequenceEqual(decryptedData));
 
 		Assert.ThrowsException<ArgumentNullException>(() => _ = AesEncrypt(message, null));
 		Assert.ThrowsException<ArgumentNullException>(() => _ = AesDecrypt(encryptedData, null));

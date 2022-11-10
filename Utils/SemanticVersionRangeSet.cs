@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Utils;
@@ -7,7 +8,7 @@ namespace Utils;
 /// <summary>
 /// A set of <see cref="SemanticVersionRange"/>s
 /// </summary>
-public class SemanticVersionRangeSet : IEquatable<SemanticVersionRangeSet> {
+public class SemanticVersionRangeSet : IEquatable<SemanticVersionRangeSet>, IParsable<SemanticVersionRangeSet> {
 	/// <summary>
 	/// Parses the <see cref="string"/> provided into a <see cref="SemanticVersionRangeSet"/>
 	/// </summary>
@@ -85,6 +86,22 @@ public class SemanticVersionRangeSet : IEquatable<SemanticVersionRangeSet> {
 
 	/// <inheritdoc/>
 	override public bool Equals(object? obj) => obj is SemanticVersionRangeSet semanticVersionRangeSet && Equals(semanticVersionRangeSet);
+
+	/// <inheritdoc/>
+	public static SemanticVersionRangeSet Parse(string s, IFormatProvider? provider) {
+		return new SemanticVersionRangeSet(s);
+	}
+
+	/// <inheritdoc/>
+	public static bool TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, [MaybeNullWhen(false)] out SemanticVersionRangeSet result) {
+		try {
+			result = new SemanticVersionRangeSet(s);
+			return true;
+		} catch {
+			result = default;
+			return false;
+		}
+	}
 
 	/// <inheritdoc/>
 	public static bool operator ==(SemanticVersionRangeSet left, SemanticVersionRangeSet right) => left is null ? right is null : left.Equals(right);

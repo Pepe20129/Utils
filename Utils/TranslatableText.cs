@@ -96,12 +96,13 @@ public class TranslatableText : IEquatable<TranslatableText> {
 	/// Tries to set the <see cref="TranslatableTextSettings"/> for the <see cref="Assembly"/> that calls this method
 	/// </summary>
 	/// <param name="translatableTextSettings">The <see cref="TranslatableTextSettings"/> to set for the calling <see cref="Assembly"/></param>
+	/// <param name="assembly">The assembly to set the settings for or null to set it for the calling assembly</param>
 	/// <returns>
 	/// true if it succeded setting the <see cref="TranslatableTextSettings"/>, false if it failed
 	/// </returns>
-	public static void SetSettings(TranslatableTextSettings translatableTextSettings) {
+	public static void SetSettings(TranslatableTextSettings translatableTextSettings, Assembly? assembly = null) {
 		ArgumentNullException.ThrowIfNull(translatableTextSettings, nameof(translatableTextSettings));
-		Assembly assembly = Assembly.GetCallingAssembly();
+		assembly ??= Assembly.GetCallingAssembly();
 		if (settingsByAssembly.ContainsKey(assembly)) {
 			settingsByAssembly[assembly] = translatableTextSettings;
 		} else {

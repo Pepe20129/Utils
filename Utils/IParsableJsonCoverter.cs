@@ -6,9 +6,9 @@ using System.Text.Json.Serialization;
 namespace Utils;
 
 /// <summary>
-/// Supports converting any <see cref="Type"/> with a <see cref="string"/> constructor by using a factory pattern
+/// Supports converting any <see cref="IParsable{TSelf}"/> by using a factory pattern
 /// </summary>
-public class StringConstructorJsonCoverterFactory : JsonConverterFactory {
+public class IParsableJsonCoverterFactory : JsonConverterFactory {
 	/// <inheritdoc/>
 	override public bool CanConvert(Type typeToConvert) {
 		return typeToConvert.GetConstructor(BindingFlags.Instance | BindingFlags.Public, null, CallingConventions.HasThis, new Type[] { typeof(string) }, null) is not null;
@@ -16,29 +16,29 @@ public class StringConstructorJsonCoverterFactory : JsonConverterFactory {
 
 	/// <inheritdoc/>
 	public override JsonConverter CreateConverter(Type typeToConvert, JsonSerializerOptions options) {
-		Type genericTestType = typeof(StringConstructorJsonCoverter<>).MakeGenericType(typeToConvert);
+		Type genericTestType = typeof(IParsableJsonCoverter<>).MakeGenericType(typeToConvert);
 		return (JsonConverter)Activator.CreateInstance(genericTestType)!;
 	}
 }
 
 /// <summary>
-/// A <see cref="JsonConverter"/> that coverts <see cref="object"/>s that have a constructor that takes only a <see cref="string"/>
+/// A <see cref="JsonConverter"/> that coverts an <see cref="IParsable{TSelf}"/>
 /// </summary>
-/// <typeparam name="T">The <see cref="Type"/> of the <see cref="object"/></typeparam>
-public class StringConstructorJsonCoverter<T> : JsonConverter<T> {
+/// <typeparam name="T">The <see cref="Type"/> of the <see cref="IParsable{TSelf}"/></typeparam>
+public class IParsableJsonCoverter<T> : JsonConverter<T> where T : IParsable<T> {
 	/// <inheritdoc/>
 	public override bool CanConvert(Type typeToConvert) {
-		return typeToConvert.GetConstructor(BindingFlags.Instance | BindingFlags.Public, null, CallingConventions.HasThis, new Type[] { typeof(string) }, null) is not null;
+		return typeToConvert.IsAssignableTo(typeof(IParsable<>));
 	}
 
 	/// <inheritdoc/>
 	override public T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
-		return (T)(typeToConvert.GetConstructor(BindingFlags.Instance | BindingFlags.Public, null, CallingConventions.HasThis, new Type[] { typeof(string) }, null)?.Invoke(new object?[] { reader.GetString() }) ?? throw new ArgumentException($"{typeToConvert} did not have a valid constructor", nameof(typeToConvert)));
+		return T.Parse(reader.GetString(), null);
 	}
 
 	/// <inheritdoc/>
 	override public T ReadAsPropertyName(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
-		return (T)(typeToConvert.GetConstructor(BindingFlags.Instance | BindingFlags.Public, null, CallingConventions.HasThis, new Type[] { typeof(string) }, null)?.Invoke(new object?[] { reader.GetString() }) ?? throw new ArgumentException($"{typeToConvert} did not have a valid constructor", nameof(typeToConvert)));
+		return T.Parse(reader.GetString(), null);
 	}
 
 	/// <inheritdoc/>

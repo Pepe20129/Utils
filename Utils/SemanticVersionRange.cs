@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using System.Text.RegularExpressions;
 
@@ -8,7 +9,7 @@ namespace Utils;
 /// A class that represents an <a href="https://github.com/npm/node-semver/blob/main/README.md#ranges">npm range of semantic versions</a>, (not a set of ranges)<br/>
 /// If there's differing behaviour between this implementation and the spec, it is a bug, please report it
 /// </summary>
-public class SemanticVersionRange : IEquatable<SemanticVersionRange> {
+public class SemanticVersionRange : IEquatable<SemanticVersionRange>, IParsable<SemanticVersionRange> {
 	/// <summary>
 	/// Creates a new <see cref="SemanticVersionRange"/> with the specified values for it's properties
 	/// </summary>
@@ -372,7 +373,23 @@ public class SemanticVersionRange : IEquatable<SemanticVersionRange> {
 	/// </summary>
 	/// <returns>A deep copy of this <see cref="SemanticVersionRange"/></returns>
 	public SemanticVersionRange Clone() => new SemanticVersionRange(min, minActive, max, maxActive, includePrereleases);
-	
+
+	/// <inheritdoc/>
+	public static SemanticVersionRange Parse(string s, IFormatProvider? provider) {
+		return new SemanticVersionRange(s);
+	}
+
+	/// <inheritdoc/>
+	public static bool TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, [MaybeNullWhen(false)] out SemanticVersionRange result) {
+		try {
+			result = new SemanticVersionRange(s);
+			return true;
+		} catch {
+			result = default;
+			return false;
+		}
+	}
+
 	private static readonly Regex PARTIAL_REGEX = new Regex(@"^(?<major>0|[1-9]\d*)(?:\.(?<minor>0|[1-9]\d*)(?:\.(?<patch>0|[1-9]\d*)(?:-(?<prerelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+(?<buildmetadata>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)?)?$");
 	private static readonly Regex X_REGEX = new Regex(@"^(?<major>0|[1-9]\d*)\.(?:(?<minor>[xX*])(?:\.(?<patch>[xX*]))?|(?<minor>0|[1-9]\d*)(?:\.(?<patch>[xX*])))(?:-(?<prerelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+(?<buildmetadata>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$");
 	private static readonly Regex PARTIAL_HYPHEN_REGEX = new Regex(@"^(?<major1>0|[1-9]\d*)(?:\.(?<minor1>0|[1-9]\d*)(?:\.(?<patch1>0|[1-9]\d*)(?:-(?<prerelease1>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+(?<buildmetadata1>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)?)? - (?<major2>0|[1-9]\d*)(?:\.(?<minor2>0|[1-9]\d*)(?:\.(?<patch2>0|[1-9]\d*)(?:-(?<prerelease2>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+(?<buildmetadata2>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)?)?$");

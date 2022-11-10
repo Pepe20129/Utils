@@ -1,11 +1,13 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Numerics;
 
 namespace Utils;
 
 /// <summary>
 /// An immutable variant of <see cref="SemanticVersion"/>
 /// </summary>
-public class ImmutableSemanticVersion : SemanticVersion {
+public class ImmutableSemanticVersion : SemanticVersion, IParsable<ImmutableSemanticVersion> {
 	/// <inheritdoc cref="SemanticVersion(BigInteger, BigInteger, BigInteger, string, string)"/>
 	public ImmutableSemanticVersion(BigInteger major, BigInteger minor, BigInteger patch, string? preRelease = null, string? buildMetadata = null) : base(major, minor, patch, preRelease, buildMetadata) {}
 
@@ -59,6 +61,22 @@ public class ImmutableSemanticVersion : SemanticVersion {
 		}
 		init {
 			base.buildMetadata = value;
+		}
+	}
+
+	/// <inheritdoc/>
+	public static ImmutableSemanticVersion Parse(string s, IFormatProvider? provider) {
+		return new ImmutableSemanticVersion(s);
+	}
+
+	/// <inheritdoc/>
+	public static bool TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, [MaybeNullWhen(false)] out ImmutableSemanticVersion result) {
+		try {
+			result = new ImmutableSemanticVersion(s);
+			return true;
+		} catch {
+			result = default;
+			return false;
 		}
 	}
 }

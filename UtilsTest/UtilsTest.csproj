@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <Authors>Pablo#1981/Pepe20129</Authors>
     <Copyright>GPLv3</Copyright>
     <IsPackable>false</IsPackable>

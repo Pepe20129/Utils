@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using System.Text.RegularExpressions;
 
@@ -7,7 +8,7 @@ namespace Utils;
 /// <summary>
 /// A class that represents a <a href="https://semver.org">semantic version</a>
 /// </summary>
-public class SemanticVersion : IComparable<SemanticVersion>, IEquatable<SemanticVersion> {
+public class SemanticVersion : IComparable<SemanticVersion>, IEquatable<SemanticVersion>, IParsable<SemanticVersion> {
 	private static readonly Regex REGEX = new Regex(@"^(?<major>0|[1-9]\d*)\.(?<minor>0|[1-9]\d*)\.(?<patch>0|[1-9]\d*)(?:-(?<prerelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+(?<buildmetadata>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$");
 
 	/// <summary>
@@ -221,7 +222,23 @@ public class SemanticVersion : IComparable<SemanticVersion>, IEquatable<Semantic
 	/// </summary>
 	/// <returns>The <see cref="SemanticVersion"/> immediatly following this one</returns>
 	public SemanticVersion Next() => preRelease == string.Empty ? new SemanticVersion(major, minor, patch + 1, "0") : new SemanticVersion(major, minor, patch, preRelease + ".0");
-	
+
+	/// <inheritdoc/>
+	public static SemanticVersion Parse(string s, IFormatProvider? provider) {
+		return new SemanticVersion(s);
+	}
+
+	/// <inheritdoc/>
+	public static bool TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, [MaybeNullWhen(false)] out SemanticVersion result) {
+		try {
+			result = new SemanticVersion(s);
+			return true;
+		} catch {
+			result = default;
+			return false;
+		}
+	}
+
 	/// <summary>
 	/// Implicitly casts the <see cref="SemanticVersion"/> into a <see cref="string"/>
 	/// </summary>

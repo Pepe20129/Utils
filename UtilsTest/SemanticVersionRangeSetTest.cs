@@ -11,7 +11,7 @@ namespace UtilsTest;
 public class SemanticVersionRangeSetTest {
 	readonly JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions {
 		Converters = {
-			new StringConstructorJsonCoverterFactory()
+			new IParsableJsonCoverterFactory()
 		}
 	};
 

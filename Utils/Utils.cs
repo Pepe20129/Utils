@@ -165,7 +165,7 @@ public static class Utils {
 	/// <returns>
 	/// An <see cref="ImmutableSemanticVersion"/> representing the current version of this library
 	/// </returns>
-	public static ImmutableSemanticVersion GetUtilsVersion() => new ImmutableSemanticVersion("0.1.3");
+	public static ImmutableSemanticVersion GetUtilsVersion() => new ImmutableSemanticVersion("0.2.0");
 
 	/// <summary>
 	/// Gets the display length that a <see cref="string"/> would have if used in <see cref="PrintColoredText(object)"/>
